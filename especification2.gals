@@ -1,0 +1,72 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = LexicalAnalyzer
+Package = /media/2870F51170F4E70A/Camila/Sistemas/6\u00aa
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+#RegularDefinitions
+L : [A-Za-z]
+D : [0-9]
+A : @
+U : _
+
+InteiroSemExponencial: 0 | ([1-9]{D}*)
+
+Exponencial: (e|E)  (\+ | \-)? ({D}{D}) {D}* 
+
+Inteiro :  {InteiroSemExponencial}{Exponencial}?
+
+Real: ( {InteiroSemExponencial}\.({D}*) {Exponencial}?  ) | ( (\.{D}*) {Exponencial}? )
+
+ConstanteLiteral: (')  (([^"'"])* ('')* ([^"'"])*)*  (')
+
+ComentarioLinha : [#] .*
+
+ComentarioBloco : "/*"([^"*"]*("*")*([^"*"][^/])?)*"*/"
+
+
+
+
+
+
+
+
+
+
+
+#Tokens
+id : ({L} | ( {L} | {A} ) ({L}{A}? | {D}{A}? | {L}{U}? | {D}{U}?)*  ( {L} | {D} ) ) 
+comentarioLinha : {ComentarioLinha}
+comentarioBloco : {ComentarioBloco}
+constanteInteira : {Inteiro} 
+constanteReal: {Real} 
+constanteLiteral: {ConstanteLiteral}
+//palavras chave
+
+programa = id : "programa"
+var = id : "var"
+caracter = id : "caracter"
+cadeia = id : "cadeia"
+procedimento = id : "procedimento"
+inicio = id : "inicio"
+inteiro = id : "inteiro"
+booleano = id : "booleano"
+funcao = id : "funcao"
+se = id : "se"
+entao = id : "entao"
+senao = id : "senao"
+leia = id : "leia"
+escreva = id : "escreva"
+ou = id : "ou"
+e = id : "e" 
+nao = id : "nao"
+falso = id : "falso"
+verdadeiro = id : "verdadeiro"
+de = id : "de" 
+faca = id : "faca"
+real = id : "real"
+vetor = id : "vetor"
+enquanto = id : "enquanto"
