@@ -25,7 +25,10 @@ ConstanteLiteral: (')  (([^"'"])* ('')* ([^"'"])*)*  (')
 
 ComentarioLinha : [#] .*
 
-ComentarioBloco : "/*"([^"*"]*("*")*([^"*"][^/])?)*"*/"
+ComentarioBloco : "/*" ( [^"*"]*  ("*")*  ( [^"*""/"])  )*  ("*")*"/"
+
+//teste : "@"  ( [^"*""/"]* )  ) "@"
+//   /*a/*/
 
 
 
@@ -44,8 +47,9 @@ comentarioBloco : {ComentarioBloco}
 constanteInteira : {Inteiro} 
 constanteReal: {Real} 
 constanteLiteral: {ConstanteLiteral}
-//palavras chave
+//teste : {teste}
 
+//palavras chave
 programa = id : "programa"
 var = id : "var"
 caracter = id : "caracter"
@@ -70,3 +74,26 @@ faca = id : "faca"
 real = id : "real"
 vetor = id : "vetor"
 enquanto = id : "enquanto"
+
+//símbolos especiais
+";"
+","
+"."
+"[" 
+"]"
+"<"
+">"
+"="
+"("
+")"
+"+"
+"-"
+"*"
+"/"
+":"
+":="
+".."
+"<="
+"<>"
+
+
