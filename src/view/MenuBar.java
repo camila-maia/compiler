@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -102,7 +104,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.openProgramMenuItem){
-
+			this.openProgramMenuItemAction();
 		}
 		else if (e.getSource() == this.saveProgramMenuItem){
 			this.saveProgramMenuItemAction();	
@@ -120,15 +122,34 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = new File(fileChooser.getSelectedFile().toString());
 
-			if(!(fileChooser.getFileFilter().accept(file) || lsiFilter.accept(file))){
-				JOptionPane.showMessageDialog(this.parentWindow,
-						"O arquivo deve ter extensão .txt ou .lsi",
-						"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
-			}
-			else{
+			if(fileChooser.getFileFilter().accept(file) || lsiFilter.accept(file)){
 				this.saveFile(file, splittedText);
 			}
+			else{
+				JOptionPane.showMessageDialog(this.parentWindow,
+						"O arquivo deve possuir extensão .txt ou .lsi",
+						"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
+			}
 		}		
+	}
+
+	private void openProgramMenuItemAction(){
+		JFileChooser fileChooser = createJFileChooser();
+		FileNameExtensionFilter lsiFilter = new FileNameExtensionFilter("LSI FILES", "lsi", "lsi");
+		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");		
+		int returnVal = fileChooser.showOpenDialog(this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = new File(fileChooser.getSelectedFile().toString());
+			
+			if(txtFilter.accept(file) || lsiFilter.accept(file)){
+				this.openFile(file);
+			}else{
+				JOptionPane.showMessageDialog(this.parentWindow,
+						"O arquivo deve possuir extensão .txt ou .lsi",
+						"Erro ao Abrir", JOptionPane.ERROR_MESSAGE);
+			}			
+		}
 	}
 
 	private JFileChooser createJFileChooser(){
@@ -139,6 +160,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		return fileChooser;
 	}
 
+	
 	private void saveFile(File file, String[] text){
 		try {
 			this.parentWindow.getView().saveFile(file, text);
@@ -148,5 +170,20 @@ public class MenuBar extends JMenuBar implements ActionListener{
 					"Erro", JOptionPane.ERROR_MESSAGE);			
 		}
 	}
+
+
+	private void openFile(File file){
+		try {
+			String text = this.parentWindow.getView().openFile(file);
+			this.parentWindow.setProgramtextAreaContent(text);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(this.parentWindow,
+					"Erro ao abrir o arquivo \n " + e,
+					"Erro", JOptionPane.ERROR_MESSAGE);	
+		}    
+	}
+
+
+
 }
 

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import control.Controller;
@@ -22,6 +23,10 @@ public class Model {
 	
 	public void saveFile(File file, String[] text) throws IOException {
 		this.fileManager.saveFile(file, text);
+	}
+
+	public String openFile(File file) throws FileNotFoundException {
+		return this.fileManager.openFile(file);
 	}
 
 }

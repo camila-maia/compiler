@@ -25,10 +25,9 @@ ConstanteLiteral: (')  (([^"'"])* ('')* ([^"'"])*)*  (')
 
 ComentarioLinha : [#] .*
 
-ComentarioBloco : "/*" ( [^"*"]*  ("*")*  ( [^"*""/"])  )*  ("*")*"/"
+ComentarioBloco: "/*" (  [^"*"] | [ \r  \n ]  |  (  "*" +  ( [ ^"*""/"]  |  [\r \n] ) ) )* "*" + "/"
 
-//teste : "@"  ( [^"*""/"]* )  ) "@"
-//   /*a/*/
+
 
 
 
@@ -47,7 +46,6 @@ comentarioBloco : {ComentarioBloco}
 constanteInteira : {Inteiro} 
 constanteReal: {Real} 
 constanteLiteral: {ConstanteLiteral}
-//teste : {teste}
 
 //palavras chave
 programa = id : "programa"
