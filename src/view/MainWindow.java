@@ -63,7 +63,7 @@ public class MainWindow extends JFrame{
 	}
 	
 	private void initProgramPanes(){
-		this.programTextArea = new JTextArea("Aloha, Maicon!");
+		this.programTextArea = new JTextArea("Aloha, CamilaAloha, CamilaAloha, Camila!");
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));
 		this.add(this.programScrollPane);
@@ -75,7 +75,7 @@ public class MainWindow extends JFrame{
 	}
 	
 	private void initConsolePanes(){
-		this.consoleTextArea = new JTextArea("Errou, Maicon!");
+		this.consoleTextArea = new JTextArea("Camila gostosa!");
 		this.consoleTextArea.setEditable(false);
 		this.consoleTextArea.setForeground(Color.red);
 		this.consoleScrollPane = new JScrollPane(this.consoleTextArea);
