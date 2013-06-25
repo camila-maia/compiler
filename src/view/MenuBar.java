@@ -1,13 +1,9 @@
 package view;
 
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -20,7 +16,7 @@ import model.analyzers.LexicalError;
 
 
 /**
- * @author Camila Maia
+ * @author Camila Maia e Maicon Lima
  * @date 06.23.2013
  */
 public class MenuBar extends JMenuBar implements ActionListener{
@@ -113,6 +109,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	}
 
 	private void lexicalMenuItemAction() {
+		this.parentWindow.getConsoleTextArea().setText("");
 		try{
 			String text = this.parentWindow.getProgramtextAreaContent();
 			this.parentWindow.getView().lexicalAnalysis(text);

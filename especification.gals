@@ -22,7 +22,7 @@ Exponencial: (e|E)  (\+ | \-)? ({D}{D}) {D}*
 
 Inteiro :  {InteiroSemExponencial}{Exponencial}?
 
-Real: ( {InteiroSemExponencial}\.({D}*) {Exponencial}?  ) | ( (\.{D}*) {Exponencial}? )
+Real: ( {InteiroSemExponencial}\.({D}*) {Exponencial}?  ) | ( (\.{D}+) {Exponencial}? )
 
 ConstanteLiteral: (')  (([^"'"])* ('')* ([^"'"])*)*  (')
 
@@ -37,20 +37,14 @@ Espacos : [\ \n \r \t]
 
 
 
-
-
-
 #Tokens
 id : ({L} | ( {L} | {A} ) ({L}{A}? | {D}{A}? | {L}{U}? | {D}{U}?)*  ( {L} | {D} ) ) 
-//comentarioLinha : {ComentarioLinha}
-//comentarioBloco :! {ComentarioBloco}
 constanteInteira : {Inteiro} 
 constanteReal: {Real} 
 constanteLiteral: {ConstanteLiteral}
 
 //palavras chave
 programa = id : "programa"
-//var = id : "var"
 caracter = id : "caracter"
 cadeia = id : "cadeia"
 procedimento = id : "procedimento"
@@ -105,13 +99,14 @@ val = id : "val"
 "*"
 "/"
 
-//Ignorar espaços em branco e comentários
- : {Espacos}
- : {ComentarioBloco}
- : {ComentarioLinha}
-
 //Comentário não fechado implicando em erro léxico
  :! {ComentarioBloco}
+
+//Ignorar espaços em branco e comentários
+ : {Espacos}*
+ : {ComentarioLinha}
+
+
 #NonTerminals
 <programa>
 <bloco>
