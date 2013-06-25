@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * @author Camila Maia
+ * @author Camila Maia e Maicon Lima
  * @date 06.23.2013
  */
 public class MainWindow extends JFrame{

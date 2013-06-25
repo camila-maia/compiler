@@ -16,7 +16,7 @@ import model.analyzers.LexicalError;
 
 
 /**
- * @author Camila Maia e Maicon Lima
+ * @author Camila Maia and Maicon Lima
  * @date 06.23.2013
  */
 public class MenuBar extends JMenuBar implements ActionListener{
@@ -117,7 +117,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}catch ( LexicalError e )
 		{
 			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
-		    this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
 		}		
 	}
 
@@ -151,7 +151,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = new File(fileChooser.getSelectedFile().toString());
-			
+
 			if(txtFilter.accept(file) || lsiFilter.accept(file)){
 				this.openFile(file);
 			}else{
@@ -170,7 +170,6 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		return fileChooser;
 	}
 
-	
 	private void saveFile(File file, String[] text){
 		try {
 			this.parentWindow.getView().saveFile(file, text);
@@ -180,7 +179,6 @@ public class MenuBar extends JMenuBar implements ActionListener{
 					"Erro", JOptionPane.ERROR_MESSAGE);			
 		}
 	}
-
 
 	private void openFile(File file){
 		try {

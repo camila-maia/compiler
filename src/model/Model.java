@@ -11,7 +11,7 @@ import control.Controller;
 
 
 /**
- * @author Camila Maia
+ * @author Camila Maia and Maicon Lima
  * @date 06.23.2013
  */
 public class Model {
