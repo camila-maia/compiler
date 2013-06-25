@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import model.Model;
+import model.analyzers.LexicalError;
 import view.View;
 
 /**
@@ -32,6 +33,11 @@ public class Controller {
 
 	public String openFile(File file) throws FileNotFoundException {
 		return this.model.openFile(file);		
+	}
+
+	public void lexicalAnalysis(String text) throws LexicalError{
+		this.model.lexicalAnalysis(text);
+		
 	}
 	
 }

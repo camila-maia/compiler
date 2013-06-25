@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -94,5 +95,13 @@ public class MainWindow extends JFrame{
 	
 	public View getView(){
 		return this.view;
+	}
+
+	public JTextArea getProgramTextArea() {
+		return this.programTextArea;
+	}
+
+	public JTextArea getConsoleTextArea() {
+		return this.consoleTextArea;
 	}
 }

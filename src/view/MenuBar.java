@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -14,6 +15,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import model.analyzers.LexicalError;
 
 
 /**
@@ -36,15 +39,12 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private JMenuItem syntacticMenuItem;
 	private JMenuItem semanticMenuItem;
 
-
-
 	public MenuBar(MainWindow parentWindow){
 		super();
 		this.parentWindow = parentWindow;
 
 		this.initComponents();
 	}
-
 
 	private void initComponents() {
 		this.createAndAddMenus();
@@ -57,14 +57,12 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.addMenus();
 	}
 
-
 	private void createMenus(){
 		this.fileMenu = new JMenu("Arquivo");
 		this.analysisMenu = new JMenu("Análises");
 		this.codeMenu = new JMenu("Código");
 		this.aboutMenu = new JMenu("Sobre");
 	}
-
 
 	private void addMenus(){
 		this.add(this.fileMenu);
@@ -99,6 +97,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private void addActionsListeners(){
 		this.openProgramMenuItem.addActionListener(this);
 		this.saveProgramMenuItem.addActionListener(this);
+		this.lexicalMenuItem.addActionListener(this);
 	}
 
 	@Override
@@ -108,6 +107,20 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}
 		else if (e.getSource() == this.saveProgramMenuItem){
 			this.saveProgramMenuItemAction();	
+		}else if(e.getSource() == this.lexicalMenuItem){
+			this.lexicalMenuItemAction();
+		}
+	}
+
+	private void lexicalMenuItemAction() {
+		try{
+			String text = this.parentWindow.getProgramtextAreaContent();
+			this.parentWindow.getView().lexicalAnalysis(text);
+			JOptionPane.showMessageDialog(this.parentWindow, "Programa lexicamente correto");
+		}catch ( LexicalError e )
+		{
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+		    this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
 		}		
 	}
 
@@ -182,8 +195,5 @@ public class MenuBar extends JMenuBar implements ActionListener{
 					"Erro", JOptionPane.ERROR_MESSAGE);	
 		}    
 	}
-
-
-
 }
 

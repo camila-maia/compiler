@@ -1,4 +1,4 @@
-package model;
+package model.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * @author Camila Maia
+ * @author Camila Maia e Maicon Lima
  * @date 06.23.2013
  */
 public class FileManager {
