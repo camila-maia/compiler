@@ -42,8 +42,8 @@ Espacos : [\ \n \r \t]
 
 #Tokens
 id : ({L} | ( {L} | {A} ) ({L}{A}? | {D}{A}? | {L}{U}? | {D}{U}?)*  ( {L} | {D} ) ) 
-comentarioLinha : {ComentarioLinha}
-comentarioBloco :! {ComentarioBloco}
+//comentarioLinha : {ComentarioLinha}
+//comentarioBloco :! {ComentarioBloco}
 constanteInteira : {Inteiro} 
 constanteReal: {Real} 
 constanteLiteral: {ConstanteLiteral}
@@ -106,12 +106,12 @@ val = id : "val"
 "/"
 
 //Ignorar espaços em branco e comentários
-: {Espacos}
-: {ComentarioBloco}
-: {ComentarioLinha}
+ : {Espacos}
+ : {ComentarioBloco}
+ : {ComentarioLinha}
 
 //Comentário não fechado implicando em erro léxico
-:! {ComentarioLinha}
+ :! {ComentarioBloco}
 #NonTerminals
 <programa>
 <bloco>
