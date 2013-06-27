@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.analyzers.LexicalError;
+import model.analyzers.SemanticError;
+import model.analyzers.SyntaticError;
 
 
 /**
@@ -94,6 +96,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.openProgramMenuItem.addActionListener(this);
 		this.saveProgramMenuItem.addActionListener(this);
 		this.lexicalMenuItem.addActionListener(this);
+		this.syntacticMenuItem.addActionListener(this);
 	}
 
 	@Override
@@ -105,7 +108,30 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			this.saveProgramMenuItemAction();	
 		}else if(e.getSource() == this.lexicalMenuItem){
 			this.lexicalMenuItemAction();
+		}else if(e.getSource() == this.syntacticMenuItem){
+			this.syntacticMenuItemAction();
 		}
+	}
+
+	private void syntacticMenuItemAction() {
+		this.parentWindow.getConsoleTextArea().setText("");
+		try{
+			String text = this.parentWindow.getProgramtextAreaContent();
+			this.parentWindow.getView().syntacticAnalysis(text);
+			JOptionPane.showMessageDialog(this.parentWindow, "Programa lexicamente e sintaticamente correto");
+		}catch ( LexicalError e )
+		{
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+		}
+		catch (SyntaticError e){
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+			
+		}catch(SemanticError e){
+			
+		}
+		
 	}
 
 	private void lexicalMenuItemAction() {

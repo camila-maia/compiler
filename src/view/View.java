@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import model.analyzers.LexicalError;
+import model.analyzers.SemanticError;
+import model.analyzers.SyntaticError;
 
 import control.Controller;
 
@@ -37,6 +39,10 @@ public class View {
 	public void lexicalAnalysis(String text) throws LexicalError {
 		this.controller.lexicalAnalysis(text);
 		
+	}
+
+	public void syntacticAnalysis(String text) throws LexicalError, SyntaticError, SemanticError {
+		this.controller.syntacticAnalysis(text);
 	}
 	
 }

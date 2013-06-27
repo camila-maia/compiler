@@ -19,13 +19,18 @@ public class Model {
 	private Controller controller;
 	private FileManager fileManager;
 	private LexicalAnalyzer lexicalAnalyzer;
+	private SyntacticAnalyzer syntaticAnalyzer;
+	private SemanticAnalyzer semanticAnalyzer;
 
 	public Model(Controller controller){
 		this.controller = controller;
 		this.fileManager = new FileManager();
 		this.lexicalAnalyzer = new LexicalAnalyzer();
+		this.syntaticAnalyzer = new SyntacticAnalyzer();
+		this.semanticAnalyzer = new SemanticAnalyzer();
+
 	}
-	
+
 	public void saveFile(File file, String[] text) throws IOException {
 		this.fileManager.saveFile(file, text);
 	}
@@ -35,13 +40,18 @@ public class Model {
 	}
 
 	public void lexicalAnalysis(String text) throws LexicalError 
-	{
-		lexicalAnalyzer.setInput(text);
-	    Token t = null;
-	    while ( (t = lexicalAnalyzer.nextToken()) != null )
-	    {
-	        System.out.println(t.getLexeme());
-	    }
+	{	
+		this.lexicalAnalyzer.setInput(text);
+		Token t = null;
+		while ( (t = lexicalAnalyzer.nextToken()) != null )
+		{
+			System.out.println(t.getLexeme());
+		}
+	}
+
+	public void syntacticAnalysis(String text)  throws LexicalError, SyntaticError, SemanticError{
+		this.lexicalAnalyzer.setInput(text);
+		this.syntaticAnalyzer.parse(this.lexicalAnalyzer, this.semanticAnalyzer);
 	}
 
 }
