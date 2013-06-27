@@ -1,5 +1,8 @@
 package model.analyzers;
-
+/**
+ * @author Camila Maia and Maicon Lima
+ * @date 06.23.2013
+ */
 public interface ParserConstants
 {
     int START_SYMBOL = 56;
@@ -189,8 +192,8 @@ public interface ParserConstants
         "Era esperado \"{\"",
         "Era esperado \"}\"",
         "Era esperado \">=\"",
-        "<programa> inválido",
-        "<bloco> inválido",
+        " \" Programa inválido\" ", //<programa>
+        "declaracao de \"constante\" ou \"tipo\" ou \"var\" ou \"metodo\" ou \"{\"", //<bloco>
         "<dcl_var_const> inválido",
         "<tipo> inválido",
         "<dimensao> inválido",
@@ -220,7 +223,7 @@ public interface ParserConstants
         "<op_mult> inválido",
         "<fator> inválido",
         "<rvar> inválido",
-        "<constante> inválido",
-        "<constante_explicita> inválido"
+        "Esperava-se um id ou numero inteiro ou real, ou valor booleano ou literal.",
+        "Esperava-se numero inteiro ou real, ou valor booleano ou literal."
     };
 }

@@ -2,6 +2,10 @@ package model.analyzers;
 
 import java.util.Stack;
 
+/**
+ * @author Camila Maia and Maicon Lima
+ * @date 06.23.2013
+ */
 public class SyntacticAnalyzer implements Constants
 {
     private Stack stack = new Stack();
