@@ -6,7 +6,7 @@ import java.util.Stack;
  * @author Camila Maia and Maicon Lima
  * @date 06.23.2013
  */
-public class SyntacticAnalyzer implements Constants
+public class SyntaticAnalyzer implements Constants
 {
     private Stack stack = new Stack();
     private Token currentToken;

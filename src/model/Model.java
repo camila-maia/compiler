@@ -19,14 +19,14 @@ public class Model {
 	private Controller controller;
 	private FileManager fileManager;
 	private LexicalAnalyzer lexicalAnalyzer;
-	private SyntacticAnalyzer syntaticAnalyzer;
+	private SyntaticAnalyzer syntaticAnalyzer;
 	private SemanticAnalyzer semanticAnalyzer;
 
 	public Model(Controller controller){
 		this.controller = controller;
 		this.fileManager = new FileManager();
 		this.lexicalAnalyzer = new LexicalAnalyzer();
-		this.syntaticAnalyzer = new SyntacticAnalyzer();
+		this.syntaticAnalyzer = new SyntaticAnalyzer();
 		this.semanticAnalyzer = new SemanticAnalyzer();
 
 	}
