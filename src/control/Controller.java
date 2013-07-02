@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import model.Model;
 import model.analyzers.LexicalError;
-import model.analyzers.SemanticError;
-import model.analyzers.SyntaticError;
 import view.View;
 
 /**
@@ -39,11 +37,6 @@ public class Controller {
 
 	public void lexicalAnalysis(String text) throws LexicalError{
 		this.model.lexicalAnalysis(text);
-		
-	}
-
-	public void syntacticAnalysis(String text) throws LexicalError, SyntaticError, SemanticError{
-		this.model.syntacticAnalysis(text);
 		
 	}
 	

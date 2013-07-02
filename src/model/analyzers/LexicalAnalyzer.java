@@ -1,9 +1,5 @@
 package model.analyzers;
 
-/**
- * @author Camila Maia and Maicon Lima
- * @date 06.23.2013
- */
 public class LexicalAnalyzer implements Constants
 {
     private int position;
