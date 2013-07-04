@@ -1,8 +1,5 @@
 package model.analyzers;
-/**
- * @author Camila Maia and Maicon Lima
- * @date 06.23.2013
- */
+
 public interface ScannerConstants
 {
     int[] SCANNER_TABLE_INDEXES = 
@@ -1371,7 +1368,7 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-        "Caractere n√£o esperado",
+        "Caractere n„o esperado",
         "",
         "",
         "Erro identificando constanteLiteral",

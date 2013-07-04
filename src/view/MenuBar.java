@@ -97,6 +97,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.saveProgramMenuItem.addActionListener(this);
 		this.lexicalMenuItem.addActionListener(this);
 		this.syntacticMenuItem.addActionListener(this);
+		this.semanticMenuItem.addActionListener(this);
 	}
 
 	@Override
@@ -110,6 +111,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			this.lexicalMenuItemAction();
 		}else if(e.getSource() == this.syntacticMenuItem){
 			this.syntacticMenuItemAction();
+		}else if(e.getSource() == this.semanticMenuItem){
+			this.semanticMenuItemAction();
 		}
 	}
 
@@ -133,6 +136,29 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}
 		
 	}
+	
+	private void semanticMenuItemAction() {
+		this.parentWindow.getConsoleTextArea().setText("");
+		try{
+			String text = this.parentWindow.getProgramtextAreaContent();
+			this.parentWindow.getView().semanticAnalysis(text);
+			JOptionPane.showMessageDialog(this.parentWindow, "Programa lexicamente, sintaticamente e semanticamente correto");
+		}catch ( LexicalError e )
+		{
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+		}
+		catch (SyntaticError e){
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+			
+		}catch(SemanticError e){
+			this.parentWindow.getProgramTextArea().setCaretPosition(e.getPosition());
+			this.parentWindow.getConsoleTextArea().setText(e.getMessage());			
+		}
+		
+	}
+
 
 	private void lexicalMenuItemAction() {
 		this.parentWindow.getConsoleTextArea().setText("");

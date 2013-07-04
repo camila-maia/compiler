@@ -3,9 +3,9 @@ GenerateScanner = true
 GenerateParser = true
 Language = Java
 ScannerName = LexicalAnalyzer
-ParserName = SyntacticAnalyzer
+ParserName = SyntaticAnalyzer
 SemanticName = SemanticAnalyzer
-Package = /media/2870F51170F4E70A/Camila/Sistemas/6\u00aa
+Package = C:\Users\maicon\Desktop\Compilador\src\model\analyzers
 ScannerCaseSensitive = true
 ScannerTable = Compact
 Input = String
@@ -142,58 +142,70 @@ val = id : "val"
 <constante>
 <constante_explicita>
 #Grammar
-<programa> ::= programa id ";" <bloco> "." ;
-<bloco> ::= <dcl_var_const> <dcl_metodos> <com_composto> ;
-<dcl_var_const> ::= <tipo> <dimensao> <lid> <fator_const> ";" <dcl_var_const>
-| Ã®;
-<tipo> ::= inteiro | real | booleano | caracter | cadeia "[" <constante> "]";
-<dimensao> ::= "[" <constante> "]" | Ã®;
-<lid> ::= id <rep_lid> ;
-<rep_lid> ::= "," <lid> | Ã® ;
-<fator_const> ::= "=" <constante> | Ã®;
-<dcl_metodos> ::= <dcl_metodo> ";" <dcl_metodos> | Ã® ;
-<dcl_metodo> ::= metodo id <par_formais>
-<tipo_metodo> ";" <bloco> ;
-<par_formais> ::= "(" <mp_par> <lid> ":" <tipo> <rep_par> ")" | Ã® ;
-<rep_par> ::= ";" <mp_par> <lid> ":" <tipo> <rep_par> | Ã® ;
-<tipo_metodo> ::= ":" <tipo> | Ã® ;
-<mp_par> ::= ref | val ;
-<com_composto> ::= "{" <comando> <replistacomando> "}" ;
-<replistacomando> ::= ";" <comando> <replistacomando> | Ã® ;
-<comando> ::= id <rcomid>
-| <com_composto>
-| se <expressao> entao <comando> <senaoparte>
-| enquanto <expressao> faca <comando>
-| leia "(" <lid> ")"
-| escreva "(" <expressao> <rep_lexpr> ")"
-| retorne <expressao>
-| Ã®;
-<senaoparte> ::= senao <comando> | Ã® ;
-<rcomid> ::= ":=" <expressao>
-| "[" <expressao> "]" ":=" <expressao>
-| "(" <expressao> <rep_lexpr> ")"
-| Ã®;
-<rep_lexpr> ::= "," <expressao> <rep_lexpr> | Ã® ;
-<expressao> ::= <expsimp> <resto_expressao> ;
-<resto_expressao> ::= <oprel> <expsimp> | Ã® ;
-<oprel> ::= "=" | "<" | ">" | ">=" | "<=" | "<>" ;
-<expsimp> ::= <termo> <rep_expsimp> ;
-<rep_expsimp> ::= <op_add> <termo> <rep_expsimp> | Ã® ;
-<op_add> ::= "+" | "-" | ou ;
-<termo> ::= <fator> <rep_termo> ;
-<rep_termo> ::= <op_mult> <fator> <rep_termo> | Ã® ;
-<op_mult> ::= "*" | "/" | div | e ;
-<fator> ::= nao <fator>
-| "-" <fator>
-| "(" <expressao> ")"
-| id <rvar>
-| <constante_explicita> ;
-<rvar> ::= "(" <expressao> <rep_lexpr> ")"
-| "[" <expressao> "]"
-| Ã®;
-<constante> ::= id | <constante_explicita> ;
-<constante_explicita>::= constanteInteira | constanteReal
-| falso | verdadeiro | constanteLiteral ;
+ 
+<programa> ::= programa id #101 ";" <bloco> "." ; 
+ 
+<bloco> ::= <dcl_var_const> <dcl_metodos>  <com_composto> ; 
 
+<dcl_var_const> ::= <tipo> <dimensao> #102 <lid> #103 <fator_const> #104 ";" <dcl_var_const> | î ; 
+ 
+<tipo> ::= inteiro #105 | real #106 | booleano #107 | caracter #108 | cadeia "[" <constante> #109 "]"; 
 
+<dimensao> ::= #110 "[" <constante> "]" #179  | #111 î ; 
+ 
+<lid> ::= id #112 <rep_lid> ; 
+ 
+<rep_lid> ::= "," <lid> | î ; 
+ 
+<fator_const>::= #113 "=" <constante> #180 | #114 î; 
+ 
+<dcl_metodos> ::= <dcl_metodo> ";" <dcl_metodos>  | î ; 
+ 
+<dcl_metodo> ::= metodo id #115 <par_formais> #116  <tipo_metodo> #117 ";" <bloco> #118 ; 
+ 
+<par_formais> ::= "(" <mp_par> #119 <lid> #120 ":"  <tipo> #121 <rep_par> ")" | î ; 
+ 
+<rep_par> ::= ";" <mp_par> #119 <lid> #120 ":"  <tipo> #121 <rep_par> | î ; 
+ 
+<tipo_metodo> ::= ":" <tipo> #122 | î #123; 
 
+<mp_par> ::= ref #124 | val #125 ; 
+
+<com_composto>::= "{"<comando> <replistacomando>"}"; 
+
+<replistacomando> ::= ";" <comando> <replistacomando> | î ; 
+ 
+<comando> ::= id #126 <rcomid> | <com_composto> | se <expressao> #127 entao <comando> <senaoparte> | enquanto <expressao> #127 faca  <comando> | leia "(" #128 <lid> ")" | escreva "(" <expressao> #129 <rep_lexpr> ")" | retorne <expressao> #130 | î ; 
+ 
+<senaoparte> ::= senao <comando> | î ;
+ 
+<rcomid> ::= #131 ":=" <expressao> #132  | "[" #133 <expressao> #134 "]" ":=" <expressao> #132  | "(" #135 <expressao> #136 <rep_lexpr> ")" #137 | î #138 ; 
+ 
+<rep_lexpr> ::= "," <expressao> #139 <rep_lexpr> | î ; 
+ 
+<expressao> ::= <expsimp> #140 <resto_expressao> ; 
+ 
+<resto_expressao> ::= <oprel> <expsimp> #141 | î ; 
+ 
+<oprel> ::= "=" #142 | "<" #143 | ">" #144  | ">=" #145 | "<=" #146 | "<>" #147 ;  
+ 
+<expsimp> ::= <termo> #148 <rep_expsimp> ; 
+ 
+<rep_expsimp>::=<op_add> #149 <termo> #150 <rep_expsimp> | î; 
+
+<op_add> ::= "+" #151 | "-" #152 | ou #153 ; 
+ 
+<termo> ::= <fator> #154 <rep_termo> ; 
+ 
+<rep_termo> ::= <op_mult> #155 <fator> #156 <rep_termo>  | î ;
+ 
+<op_mult> ::= "*" #157 | "/" #158 | e #159 | div #160 ; 
+ 
+<fator> ::= nao #161 <fator> #162 | "-" #163 <fator> #164 | "(" #165 <expressao> ")" #166 | id #126 <rvar> #167 | <constante_explicita> #168; 
+ 
+<rvar>::= "(" #169 <expressao> #136 <rep_lexpr> ")" #170 | "[" #133 <expressao> #171 "]" | î #172 ; 
+ 
+<constante> ::= id #173 | <constante_explicita> ; 
+
+<constante_explicita>::= constanteInteira #174 | constanteReal #175 | falso #176 | verdadeiro #177 | constanteLiteral #178 ; 
+  

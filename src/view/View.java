@@ -44,5 +44,10 @@ public class View {
 	public void syntacticAnalysis(String text) throws LexicalError, SyntaticError, SemanticError {
 		this.controller.syntacticAnalysis(text);
 	}
+
+	public void semanticAnalysis(String text) throws LexicalError, SyntaticError, SemanticError{
+		this.controller.semanticAnalysis(text);
+		
+	}
 	
 }

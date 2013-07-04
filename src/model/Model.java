@@ -51,7 +51,11 @@ public class Model {
 
 	public void syntacticAnalysis(String text)  throws LexicalError, SyntaticError, SemanticError{
 		this.lexicalAnalyzer.setInput(text);
-		this.syntaticAnalyzer.parse(this.lexicalAnalyzer, this.semanticAnalyzer);
+		this.syntaticAnalyzer.parse(this.lexicalAnalyzer, null);
 	}
 
+	public void semanticAnalysis(String text)throws LexicalError, SyntaticError, SemanticError {
+		this.lexicalAnalyzer.setInput(text);
+		this.syntaticAnalyzer.parse(this.lexicalAnalyzer, this.semanticAnalyzer);
+	}
 }

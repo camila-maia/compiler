@@ -46,5 +46,9 @@ public class Controller {
 		this.model.syntacticAnalysis(text);
 		
 	}
+
+	public void semanticAnalysis(String text) throws LexicalError, SyntaticError, SemanticError {
+		this.model.semanticAnalysis(text);
+	}
 	
 }

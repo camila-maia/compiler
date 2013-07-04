@@ -2,10 +2,6 @@ package model.analyzers;
 
 import java.util.Stack;
 
-/**
- * @author Camila Maia and Maicon Lima
- * @date 06.23.2013
- */
 public class SyntaticAnalyzer implements Constants
 {
     private Stack stack = new Stack();
@@ -74,7 +70,8 @@ public class SyntaticAnalyzer implements Constants
         }
         else // isSemanticAction(x)
         {
-            semanticAnalyser.executeAction(x-FIRST_SEMANTIC_ACTION, previousToken);
+        	if(semanticAnalyser != null)
+        		semanticAnalyser.executeAction(x-FIRST_SEMANTIC_ACTION, previousToken);
             return false;
         }
     }
@@ -85,7 +82,7 @@ public class SyntaticAnalyzer implements Constants
         if (p >= 0)
         {
             int[] production = PRODUCTIONS[p];
-            //empilha a produÃ§Ã£o em ordem reversa
+            //empilha a produção em ordem reversa
             for (int i=production.length-1; i>=0; i--)
             {
                 stack.push(new Integer(production[i]));
