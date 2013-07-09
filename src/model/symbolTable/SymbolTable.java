@@ -9,8 +9,7 @@ import java.util.HashMap;
 public class SymbolTable {
 	
 	private int currentLevel;
-	private int shift;
-	
+	private int shift;	
 	private  HashMap<String, Identifier> rows;
 
 	public SymbolTable(){
@@ -18,4 +17,10 @@ public class SymbolTable {
 		this.shift = 0;
 		this.rows = new HashMap<String, Identifier>();
 	}
+	
+	public void addIdentifier(Identifier id){
+		this.rows.put(id.getName()+""+this.currentLevel, id);
+	}
+	
+	
 }
