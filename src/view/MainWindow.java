@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 public class MainWindow extends JFrame{
 
 	private View view;
-	
+
 	private MenuBar menuBar;
 	private JLabel programLabel;
 	private JScrollPane programScrollPane;
@@ -25,14 +25,14 @@ public class MainWindow extends JFrame{
 	private JLabel consoleLabel;
 	private JScrollPane consoleScrollPane;
 	private JTextArea consoleTextArea;
-	
+
 	public MainWindow(View view){
 		super("Compiler");
 		this.view = view;		
 		this.setProperties();
 		this.setComponents();
 	}
-	
+
 	private void setProperties(){
 		this.setSize(500, 630);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,30 +50,85 @@ public class MainWindow extends JFrame{
 		this.menuBar = new MenuBar(this);
 		this.setJMenuBar(this.menuBar);
 	}
-	
+
 	private void initProgramLabel(){
 		this.programLabel = new JLabel("Programa");
 		this.add(programLabel);
 	}
-	
+
 	private void initPanes() {
 		this.initProgramPanes();
 		this.initConsoleLabel();
 		this.initConsolePanes();
 	}
-	
+
 	private void initProgramPanes(){
-		this.programTextArea = new JTextArea("");
+		String program = 
+				"programa exemplo; \n" +
+						"# ex decl constantes \n" +
+						"inteiro n = 10; \n" +
+						"caracter car = 'x'; \n" +
+						"booleano achou = falso; \n" +
+						"real z = 2.5; \n" +
+						"cadeia [ 30 ] nome = 'meu nome'; \n" +
+						"# ex decl variaveis \n" +
+						"inteiro i,j,k ; \n" +
+						"inteiro [ 10 ] x, y; \n" +
+						"booleano achou; \n" +
+						"caracter car, kar; \n" +
+						"cadeia [20] nome; \n" +
+						"real a,b; \n"+
+						"caracter [ n ] vet_car; \n" +
+						"# ex declaracao de metodos \n" +
+						"metodo maior (ref i:inteiro; val j:real):real ; \n" +
+						"{ \n" +
+						"x[ i ] := - ( i * j); \n" + 
+						"se i > j \n"+
+						"entao retorne i * x [j] \n" +
+						"senao retorne j; \n" +
+						"}; \n"+
+						"metodo proc (ref a,b:real; val c,d:inteiro); \n"+
+						"{ \n"+
+						"c:= maior (d, a * z); \n"+
+						"achou := nao (achou e perdeu); \n"+
+						"}; \n"+
+						" /* programa principal */ \n"+
+						"{ \n"+
+						"leia (x,b,z); \n" +
+						"enquanto i <= 10 faca \n"+
+						"{ \n"+
+						"se (z > x) e nao achou \n"+
+						"entao enquanto b > z faca \n" +
+						"{ \n"+
+						"x:= y + 1; \n"+
+						"z:= 0; \n"+
+						"cad := 'um literal qquer'; \n"+
+						"} \n"+
+						"senao enquanto b ou c faca \n"+
+						"{ \n"+
+						"maior:= maior( i, j+k) > 'm'; \n"+
+						"z:=z + 1; \n"+
+						"mat [j + 1] := inter - 1; \n"+
+						"}; \n"+
+						"i:= i+1; \n"+
+						"}; \n"+
+						"vet[x+y] := vet[k*l + 1 * vet[1]]; \n"+
+						"proc (y[x[1]] , i, j+k, maior ( x[i], x[i+1])); \n"+
+						"vetcar['a']:= maior (x,y-1,7); \n"+
+						"escreva ('este programa nao faz nada', data[dia], b); \n"+
+						"}. \n";
+
+		this.programTextArea = new JTextArea(program);
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));
 		this.add(this.programScrollPane);
 	}
-	
+
 	private void initConsoleLabel(){
 		this.consoleLabel = new JLabel("Console");
 		this.add(this.consoleLabel);
 	}
-	
+
 	private void initConsolePanes(){
 		this.consoleTextArea = new JTextArea("");
 		this.consoleTextArea.setEditable(false);
@@ -83,16 +138,16 @@ public class MainWindow extends JFrame{
 		this.add(this.consoleScrollPane);
 	}
 
-	
+
 	public String getProgramtextAreaContent() {
 		return this.programTextArea.getText();
 	}
-	
+
 
 	public void setProgramtextAreaContent(String text) {
 		this.programTextArea.setText(text);
 	}
-	
+
 	public View getView(){
 		return this.view;
 	}
