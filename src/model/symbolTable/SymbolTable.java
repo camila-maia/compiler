@@ -2,6 +2,8 @@ package model.symbolTable;
 
 import java.util.HashMap;
 
+import model.analyzers.SemanticError;
+
 /**
  * @author Camila Maia and Maicon Lima
  * @date 07.04.2013
@@ -9,23 +11,30 @@ import java.util.HashMap;
 public class SymbolTable {
 
 	private int currentLevel;
-	private int shift;	
-	private int initialPosition;
-	private int endPosition;
+	private int shift;		
 	private HashMap<String, Identifier> rows;
 
 	public SymbolTable(){
 		this.currentLevel = 0;
 		this.shift = 0;
-		this.initialPosition = 0;
-		this.endPosition = 0;
 		this.rows = new HashMap<String, Identifier>();
 	}
 
-	public void addIdentifier(Identifier id){
-		this.rows.put(id.getName()+""+this.currentLevel, id);
+	public void addIdentifier(Identifier id) throws SemanticError {
+		String key = id.getName()+""+this.currentLevel;
+		if(!this.isThereSameKey(key))
+			this.rows.put(key, id);
+		else{
+			throw new SemanticError("Identificador já declarado");
+		}
 	}
 
+	private boolean isThereSameKey(String key){
+		return this.rows.containsKey(key);
+	}
+	
+	
+	
 	public int getCurrentLevel() {
 		return currentLevel;
 	}
@@ -40,22 +49,6 @@ public class SymbolTable {
 
 	public void setShift(int shift) {
 		this.shift = shift;
-	}
-
-	public int getInitialPosition() {
-		return initialPosition;
-	}
-
-	public void setInitialPosition(int initialPosition) {
-		this.initialPosition = initialPosition;
-	}
-
-	public int getEndPosition() {
-		return endPosition;
-	}
-
-	public void setEndPosition(int endPosition) {
-		this.endPosition = endPosition;
 	}
 
 	public HashMap<String, Identifier> getRows() {

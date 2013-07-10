@@ -13,35 +13,13 @@ public class Variable extends Identifier{
 	private int length;
 	private PrimitiveTypes elementsType;
 	
-	private boolean isSimpleVariable;
-	private boolean isString;
-	private boolean isVector;
+	private VariablesCategories subCategory;
 	
-	//Simple Variable
-	public Variable(String name, int level, int shift, PrimitiveTypes type) {
-		super(name);
-		this.level = level;
-		this.shift = shift;
-		this.type = type;
-		this.isSimpleVariable = true;
-	}
-	
-	//String
-	public Variable(String name, int level, int shift, int length) {
-		super(name);
-		this.level = level;
-		this.shift = shift;
-		this.length = length;
-		this.isString = true;
-	}
 
-	//Vector
-	public Variable(String name, int level, int shift, int length, PrimitiveTypes elementsType) {
+	public Variable(String name, int level, int shift) {
 		super(name);
 		this.level = level;
-		this.shift = shift;
-		this.length = length;
-		this.isVector = true;
+		this.shift = shift;	
 	}
 
 	public int getLevel() {
@@ -84,29 +62,14 @@ public class Variable extends Identifier{
 		this.elementsType = elementsType;
 	}
 
-	public boolean isSimpleVariable() {
-		return isSimpleVariable;
+	public VariablesCategories getSubCategory() {
+		return subCategory;
 	}
 
-	public void setSimpleVariable(boolean isSimpleVariable) {
-		this.isSimpleVariable = isSimpleVariable;
+	public void setSubCategory(VariablesCategories subCategory) {
+		this.subCategory = subCategory;
 	}
 
-	public boolean isString() {
-		return isString;
-	}
-
-	public void setString(boolean isString) {
-		this.isString = isString;
-	}
-
-	public boolean isVector() {
-		return isVector;
-	}
-
-	public void setVector(boolean isVector) {
-		this.isVector = isVector;
-	}
 	
 	
 	
