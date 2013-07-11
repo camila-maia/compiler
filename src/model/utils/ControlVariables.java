@@ -1,10 +1,17 @@
 package model.utils;
 import java.util.Stack;
 
+import model.symbolTable.VariablesCategories;
+
 public class ControlVariables {
 
 	public static String contextoLID;
 	public static String tipoAtual;
+	public static String tipoConst;
+	public static Object valConst;
+	public static VariablesCategories subCategoria;
+	public static String categoriaAtual;
+	
 	public static String valorAtual;
 	public static int deslocamento;
 	public static String mppAtual;
