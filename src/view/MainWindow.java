@@ -119,7 +119,9 @@ public class MainWindow extends JFrame{
 						"}. \n";
 		String minimunProgram = "programa exemplo; \n " +
 				"cadeia [ 30 ] nome = 'meu nome'; \n" +
-				"{}.";
+				"{" +
+				"" +
+				"}.";
 		this.programTextArea = new JTextArea(minimunProgram);
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));

@@ -2,7 +2,10 @@ package model.symbolTable;
 
 import java.util.HashMap;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import model.analyzers.SemanticError;
+import model.utils.ControlVariables;
 
 /**
  * @author Camila Maia and Maicon Lima
@@ -15,18 +18,26 @@ public class SymbolTable {
 	private HashMap<String, Identifier> rows;
 
 	public SymbolTable(){
+		ControlVariables.cleanAll();
 		this.currentLevel = 0;
 		this.shift = 0;
 		this.rows = new HashMap<String, Identifier>();
 	}
 
 	public void addIdentifier(Identifier id) throws SemanticError {
-		String key = id.getName()+""+this.currentLevel;
-		if(!this.isThereSameKey(key))
-			this.rows.put(key, id);
+		if(id.getName().equals(ControlVariables.programName))
+			throw new SemanticError("Não é permitido usar um identificador igual ao do programa");
 		else{
-			throw new SemanticError("Identificador já declarado");
+			if(id instanceof Program)
+				ControlVariables.programName = id.getName();
+			String key = id.getName()+""+this.currentLevel;
+			if(!this.isThereSameKey(key))
+				this.rows.put(key, id);
+			else{
+				throw new SemanticError("Identificador já declarado");
+			}
 		}
+		
 	}
 
 	private boolean isThereSameKey(String key){

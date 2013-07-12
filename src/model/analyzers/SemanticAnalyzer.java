@@ -23,8 +23,9 @@ public class SemanticAnalyzer implements Constants {
 		//this.implementedActions.add(104);
 		this.implementedActions.add(105);
 		this.implementedActions.add(109);
-		this.implementedActions.add(110);
+		this.implementedActions.add(110);	
 		this.implementedActions.add(111);
+		this.implementedActions.add(112); // fazer o resto
 		this.implementedActions.add(113);
 		this.implementedActions.add(174);
 		this.implementedActions.add(175);
@@ -38,7 +39,6 @@ public class SemanticAnalyzer implements Constants {
 		System.out.println("Ação #"+action+", Token: "+token);
 
 		if(implementedActions.contains(action)){
-
 			this.token = token;
 			try {
 				Method method = this.getClass().getMethod("action_" + action, (Class[]) null);  // Reflexão para pegar método da ação que está sendo referenciada
@@ -52,8 +52,9 @@ public class SemanticAnalyzer implements Constants {
 					throw new SemanticError("Erro na acao " + action + ": " + e.getMessage(), token.getPosition());
 				}
 			}
-
 		}
+		else
+			System.out.println("Ação não implementada " + action);
 	}	
 
 
@@ -66,6 +67,7 @@ public class SemanticAnalyzer implements Constants {
 		this.symbolTable = new SymbolTable();
 		Program program = new Program(this.token.getLexeme());
 		this.symbolTable.addIdentifier(program);
+		//TODO 
 	}
 
 	/**
@@ -125,7 +127,7 @@ public class SemanticAnalyzer implements Constants {
 	 senão TipoAtual := “cadeia” 
 	 */
 	public void action_109() throws SemanticError {
-		Integer a = (Integer) ControlVariables.valConst;
+		int a = Integer.valueOf((String) ControlVariables.valConst);
 		
 		if (!ControlVariables.tipoConst.equals("inteiro"))
 			throw new SemanticError("esperava-se uma const. inteira");

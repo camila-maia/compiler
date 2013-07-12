@@ -11,6 +11,7 @@ public class ControlVariables {
 	public static Object valConst;
 	public static VariablesCategories subCategoria;
 	public static String categoriaAtual;
+	public static String programName;
 	
 	public static String valorAtual;
 	public static int deslocamento;
@@ -36,4 +37,15 @@ public class ControlVariables {
 	public static Stack posicaoIDIndex;
 	public static Stack nivelIDIndex;
 	public static Stack metodoAtual;
+	
+	public static void cleanAll(){
+		contextoLID = null;
+		tipoAtual= null;
+		tipoConst= null;
+		valConst= null;
+		subCategoria= null;
+		categoriaAtual= null;
+		programName= null;
+	}
+	
 }
