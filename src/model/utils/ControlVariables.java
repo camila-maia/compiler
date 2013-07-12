@@ -48,4 +48,14 @@ public class ControlVariables {
 		programName= null;
 	}
 	
+	public static void printAttributes(){
+		System.out.println("contextoLID = "+contextoLID);
+		System.out.println("tipoAtual = " + tipoAtual);
+		System.out.println("tipoConst = " + tipoConst);
+		System.out.println("valConst = "+ valConst);
+		System.out.println("subCategoria = "+subCategoria);
+		System.out.println("categoriaAtual = "+ categoriaAtual);
+		System.out.println("programName = "+programName);
+	}
+	
 }

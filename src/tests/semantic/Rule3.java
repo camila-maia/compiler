@@ -48,4 +48,6 @@ public class Rule3 {
 		assertTrue (ok);
 	}
 	
+	
+	
 }

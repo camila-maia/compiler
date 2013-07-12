@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import model.symbolTable.Identifier;
+import model.symbolTable.PrimitiveTypes;
 import model.symbolTable.Program;
 import model.symbolTable.SymbolTable;
 import model.symbolTable.VariablesCategories;
@@ -22,11 +23,13 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(103);		
 		//this.implementedActions.add(104);
 		this.implementedActions.add(105);
+		this.implementedActions.add(108);
 		this.implementedActions.add(109);
 		this.implementedActions.add(110);	
 		this.implementedActions.add(111);
 		this.implementedActions.add(112); // fazer o resto
 		this.implementedActions.add(113);
+		this.implementedActions.add(115);
 		this.implementedActions.add(174);
 		this.implementedActions.add(175);
 		this.implementedActions.add(176);
@@ -184,6 +187,32 @@ public class SemanticAnalyzer implements Constants {
 		else
 			ControlVariables.categoriaAtual = "constante";
 
+	}
+	
+	/**
+	 * #115 Se id já est á declarado no NA,
+	 * então ERRO(“Id já declarado”) senão 
+	 * insere id na TS, junto com seus atrib. zera número de parâmetros Formais (NPF)
+	 * incrementa nível atual (NA := NA + 1)
+	 */
+	public void action_115()throws SemanticError{
+		/**
+		 * dois exemplos
+		 * programa exemplo; inteiro n = 10; metodo meumetodo;inteiro n = 5;{};{}.
+		 * programa exemplo; cadeia [20] nome; metodo meumetodo;inteiro n = 5;" +"{};{}.
+		 */
+		ControlVariables.printAttributes();
+		switch(ControlVariables.categoriaAtual){
+			case "constante":{
+					//Constants identifier = new Constants(String name, int level, PrimitiveTypes type, Object value);
+					//this.symbolTable.addIdentifier(identifier);
+					break;
+				}
+			default:{
+				System.out.println("ferrou");
+			}
+		}
+		//this.symbolTable.addIdentifier(this.token.getId());
 	}
 
 	public void action_174() throws SemanticError {
