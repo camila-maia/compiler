@@ -6,7 +6,6 @@ package model.symbolTable;
  */
 public class Variable extends Identifier{
 
-	private int level;
 	private int shift; 
 	
 	private PrimitiveTypes type;
@@ -18,16 +17,8 @@ public class Variable extends Identifier{
 
 	public Variable(String name, int level, int shift) {
 		super(name);
-		this.level = level;
+		this.setLevel(level);
 		this.shift = shift;	
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	public int getShift() {

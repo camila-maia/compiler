@@ -6,6 +6,8 @@ package model.symbolTable;
  */
 public enum PrimitiveTypes {
 	INTEIRO, REAL, BOOLEANO, CARACTER;	
+	
+	
 }
 
 

@@ -6,7 +6,6 @@ package model.symbolTable;
  */
 public class Parameter extends Identifier{
 
-	private int level;
 	private int shift;
 	private String passingMechanism;
 	private PrimitiveTypes type;
@@ -15,20 +14,13 @@ public class Parameter extends Identifier{
 			String passingMechanism, PrimitiveTypes type) {
 		super(name);
 
-		this.level = level;
+		this.setLevel(level);
 		this.shift = shift;
 		this.passingMechanism = passingMechanism;
 		this.type = type;
 		
 	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
+	
 
 	public int getShift() {
 		return shift;

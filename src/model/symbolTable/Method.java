@@ -9,21 +9,12 @@ import java.util.ArrayList;
 public class Method extends Identifier{
 
 	//Falta completar atributos!!!
-	private int level;
 	private ArrayList<Parameter> parameters;
 	
 	public Method(String name, int level, ArrayList<Parameter> parameters) {
 		super(name);
-		this.level = level;
+		this.setLevel(level);
 		this.parameters = parameters;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	public ArrayList<Parameter> getParameters() {

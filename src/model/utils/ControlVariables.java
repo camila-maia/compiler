@@ -1,17 +1,31 @@
 package model.utils;
+import java.util.ArrayList;
 import java.util.Stack;
 
+import model.symbolTable.Identifier;
+import model.symbolTable.PrimitiveTypes;
 import model.symbolTable.VariablesCategories;
 
 public class ControlVariables {
 
+	//decl, par-formal, leitura, 
 	public static String contextoLID;
-	public static String tipoAtual;
-	public static String tipoConst;
+	//inteiro, real, booleano, caracter, cadeia
+	public static String tipoAtual;  
+	//inteiro, real, falso, verdadeiro, literal
+	public static PrimitiveTypes tipoConst;
 	public static Object valConst;
 	public static VariablesCategories subCategoria;
-	public static String categoriaAtual;
+	//constante, variavel, 
+	public static String categoriaAtual;  
 	public static String programName;
+	//valores inteiros
+	public static int primeiraPosicaoListaAux;
+	public static int ultimaPosicaoListaAux;
+	//lista de chaves
+	public static ArrayList<Identifier> LID;
+	public static int posid;
+	public static Object tipoLadoEsquerdo;
 	
 	public static String valorAtual;
 	public static int deslocamento;
@@ -19,7 +33,6 @@ public class ControlVariables {
 	public static int posicaoDoID;
 	public static int nivelID;
 	public static String tipoExpr;
-	public static String tipoLadoEsquerdo;
 	public static String tipoFator;
 	public static String tipoExpressao;
 	public static String tipoTermo;
@@ -56,6 +69,11 @@ public class ControlVariables {
 		System.out.println("subCategoria = "+subCategoria);
 		System.out.println("categoriaAtual = "+ categoriaAtual);
 		System.out.println("programName = "+programName);
+		System.out.println("Primeira Pos Lista = "+ primeiraPosicaoListaAux);
+		System.out.println("Ultima Pos Lista = "+ultimaPosicaoListaAux);
+		
+		
+		
 	}
 	
 }

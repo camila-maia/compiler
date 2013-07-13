@@ -6,24 +6,15 @@ package model.symbolTable;
  */
 public class Constant extends Identifier {
 
-	private int level;
 	private PrimitiveTypes type;
 	private Object value;
 	
 	public Constant(String name, int level, PrimitiveTypes type, Object value) {
 		super(name);
-		this.level = level;
+		this.setLevel(level);
 		this.type = type;
 		this.value = value;	
 		
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	public PrimitiveTypes getType() {
