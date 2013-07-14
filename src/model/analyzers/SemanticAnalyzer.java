@@ -4,14 +4,14 @@ package model.analyzers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+
 import model.symbolTable.Constant;
+import model.symbolTable.IdType;
 import model.symbolTable.Identifier;
 import model.symbolTable.Parameter;
-import model.symbolTable.PrimitiveTypes;
 import model.symbolTable.Program;
 import model.symbolTable.SymbolTable;
 import model.symbolTable.Variable;
-import model.symbolTable.VariablesCategories;
 import model.utils.ControlVariables;
 
 public class SemanticAnalyzer implements Constants {
@@ -36,6 +36,10 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(115);
 		this.implementedActions.add(126);
 		this.implementedActions.add(131);
+		this.implementedActions.add(132);
+		this.implementedActions.add(140);
+		this.implementedActions.add(148);
+		this.implementedActions.add(154);
 		this.implementedActions.add(168);
 		this.implementedActions.add(174);
 		this.implementedActions.add(175);
@@ -120,9 +124,10 @@ public class SemanticAnalyzer implements Constants {
 				this.symbolTable.updateIdentifier(identifier, constant);
 				break;
 			case "variavel":
-//				Variable variable= new Variable(identifier.getName(), 
-//						identifier.getLevel(), shift);				
-//				this.symbolTable.updateIdentifier(identifier, constant);
+				Variable variable= new Variable(identifier.getName(), 
+						identifier.getLevel());
+				variable.setType(ControlVariables.tipoAtual);
+				this.symbolTable.updateIdentifier(identifier, variable);
 				break;
 			}
 		}
@@ -132,22 +137,22 @@ public class SemanticAnalyzer implements Constants {
 
 	public void action_105() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoAtual = "inteiro";
+		ControlVariables.tipoAtual = IdType.INTEIRO;
 	}
 
 	public void action_106() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoAtual = "real";
+		ControlVariables.tipoAtual = IdType.REAL;
 	}
 
 	public void action_107() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoAtual = "booleano";
+		ControlVariables.tipoAtual = IdType.BOOLEANO;
 	}
 
 	public void action_108() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoAtual = "caracter";
+		ControlVariables.tipoAtual = IdType.CARACTER;
 	}
 
 	/**
@@ -165,7 +170,7 @@ public class SemanticAnalyzer implements Constants {
 		else if( a > 256)
 			throw new SemanticError("cadeia > que o permitido");
 		else
-			ControlVariables.tipoAtual = "cadeia";			
+			ControlVariables.tipoAtual = IdType.CADEIA;			
 	}
 
 	/**
@@ -178,7 +183,7 @@ public class SemanticAnalyzer implements Constants {
 		if(ControlVariables.tipoAtual.equals("cadeia"))
 			throw new SemanticError("Vetor do tipo cadeia não é permitido");
 		else{
-			ControlVariables.subCategoria = VariablesCategories.VECTOR;
+			ControlVariables.subCategoria = IdType.VECTOR;
 		}
 	}
 
@@ -190,9 +195,9 @@ public class SemanticAnalyzer implements Constants {
 	public void action_111() throws SemanticError {
 		//Camila Aproves
 		if(ControlVariables.tipoAtual.equals("cadeia"))
-			ControlVariables.subCategoria = VariablesCategories.STRING;
+			ControlVariables.subCategoria = IdType.CADEIA;
 		else{
-			ControlVariables.subCategoria = VariablesCategories.PRIMITIVES;
+			ControlVariables.subCategoria = IdType.PRIMITIVES;
 		}
 	}	
 
@@ -235,8 +240,8 @@ public class SemanticAnalyzer implements Constants {
 	 */
 	public void action_113() throws SemanticError {
 		//Camila Aproves
-		if(ControlVariables.subCategoria == VariablesCategories.VECTOR
-				|| ControlVariables.subCategoria == VariablesCategories.STRING){
+		if(ControlVariables.subCategoria == IdType.VECTOR
+				|| ControlVariables.subCategoria == IdType.CADEIA){
 			throw new SemanticError("Apenas id de tipo pré-def podem ser declarados como constante");
 		}
 		else
@@ -309,10 +314,10 @@ public class SemanticAnalyzer implements Constants {
 
 		if(className.equals("Variable")){
 			Variable variable = (Variable)id;
-			if(variable.getElementsType().toString().toLowerCase().equals("vetor") )
+			if(variable.getType().toString().toLowerCase().equals("vetor") )
 				throw new SemanticError("Não pode ser Vetor");				
 			else{
-				ControlVariables.tipoLadoEsquerdo = variable.getSubCategory();
+				ControlVariables.tipoLadoEsquerdo = variable.getType();
 			}
 		}
 		else if (className.equals("Parameter")){
@@ -323,14 +328,42 @@ public class SemanticAnalyzer implements Constants {
 			throw new SemanticError("Esperáva-se variável ou parâmetro");
 		}
 	}
-
-	public void action_168() throws SemanticError {
-
+	
+	/** se TipoExpr não compatível com tipoLadoesq
+	 *  então ERRO (“tipos incompatíveis”)
+	 *  senão (* G. Código *)
+	 */
+	public void action_132() throws SemanticError {
+		if(ControlVariables.tipoExpr != ControlVariables.tipoLadoEsquerdo){
+			throw new SemanticError("tipos incompatíveis: " + 
+					ControlVariables.tipoExpr + "<>" + ControlVariables.tipoLadoEsquerdo);
+		}
 	}
+	
+	/** TipoExpr := TipoExpSimples	 */
+	public void action_140() throws SemanticError {
+		ControlVariables.tipoExpr = ControlVariables.tipoExpSimples;
+	}
+	
+	/** TipoExpSimples := TipoTermo	 */
+	public void action_148() throws SemanticError {
+		ControlVariables.tipoExpSimples = ControlVariables.tipoTermo;
+	}
+	
+	/** TipoTermo := TipoFator */
+	public void action_154() throws SemanticError {
+		ControlVariables.tipoTermo = ControlVariables.tipoFator; 
+	}
+	
+	/**TipoFator := TipoCte */
+	public void action_168() throws SemanticError {
+		ControlVariables.tipoFator = ControlVariables.tipoConst; 
+	}
+	
 	/**TipoConst := tipo da constante
 			ValConst := valor da constante*/
 	public void action_174() throws SemanticError {
-		ControlVariables.tipoConst = PrimitiveTypes.INTEIRO;
+		ControlVariables.tipoConst = IdType.INTEIRO;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 
@@ -338,7 +371,7 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_175() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = PrimitiveTypes.REAL;
+		ControlVariables.tipoConst = IdType.REAL;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 
@@ -346,7 +379,7 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_176() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = PrimitiveTypes.BOOLEANO;
+		ControlVariables.tipoConst = IdType.BOOLEANO;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 
@@ -354,7 +387,7 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_177() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = PrimitiveTypes.BOOLEANO;
+		ControlVariables.tipoConst = IdType.BOOLEANO;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 
@@ -362,7 +395,7 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_178() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = PrimitiveTypes.CARACTER;
+		ControlVariables.tipoConst = IdType.CARACTER;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 

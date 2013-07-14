@@ -10,7 +10,16 @@ public class Method extends Identifier{
 
 	//Falta completar atributos!!!
 	private ArrayList<Parameter> parameters;
+	private IdType resultType;
 	
+	public IdType getResultType() {
+		return resultType;
+	}
+
+	public void setResultType(IdType resultType) {
+		this.resultType = resultType;
+	}
+
 	public Method(String name, int level, ArrayList<Parameter> parameters) {
 		super(name);
 		this.setLevel(level);

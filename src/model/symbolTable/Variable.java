@@ -1,24 +1,21 @@
 package model.symbolTable;
 
+import javax.lang.model.util.Types;
+
 /**
  * @author Camila Maia and Maicon Lima
  * @date 07.04.2013
  */
 public class Variable extends Identifier{
 
-	private int shift; 
-	
-	private PrimitiveTypes type;
+	private int shift;	
+	private IdType type;
 	private int length;
-	private PrimitiveTypes elementsType;
-	
-	private VariablesCategories subCategory;
-	
+	private IdType vectorType;
 
-	public Variable(String name, int level, int shift) {
+	public Variable(String name, int level) {
 		super(name);
 		this.setLevel(level);
-		this.shift = shift;	
 	}
 
 	public int getShift() {
@@ -29,11 +26,11 @@ public class Variable extends Identifier{
 		this.shift = shift;
 	}
 
-	public PrimitiveTypes getType() {
+	public IdType getType() {
 		return type;
 	}
 
-	public void setType(PrimitiveTypes type) {
+	public void setType(IdType type) {
 		this.type = type;
 	}
 
@@ -45,20 +42,12 @@ public class Variable extends Identifier{
 		this.length = length;
 	}
 
-	public PrimitiveTypes getElementsType() {
-		return elementsType;
+	public IdType getVectorType() {
+		return vectorType;
 	}
 
-	public void setElementsType(PrimitiveTypes elementsType) {
-		this.elementsType = elementsType;
-	}
-
-	public VariablesCategories getSubCategory() {
-		return subCategory;
-	}
-
-	public void setSubCategory(VariablesCategories subCategory) {
-		this.subCategory = subCategory;
+	public void setVectorType(IdType vectorType) {
+		this.vectorType = vectorType;
 	}
 
 	

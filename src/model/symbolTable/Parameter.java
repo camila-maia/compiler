@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+
 /**
  * @author Camila Maia and Maicon Lima
  * @date 07.07.2013
@@ -8,10 +9,10 @@ public class Parameter extends Identifier{
 
 	private int shift;
 	private String passingMechanism;
-	private PrimitiveTypes type;
+	private IdType type;
 
 	public Parameter(String name, int level, int shift, 
-			String passingMechanism, PrimitiveTypes type) {
+			String passingMechanism, IdType type) {
 		super(name);
 
 		this.setLevel(level);
@@ -38,11 +39,11 @@ public class Parameter extends Identifier{
 		this.passingMechanism = passingMechanism;
 	}
 
-	public PrimitiveTypes getType() {
+	public IdType getType() {
 		return type;
 	}
 
-	public void setType(PrimitiveTypes type) {
+	public void setType(IdType type) {
 		this.type = type;
 	}
 	

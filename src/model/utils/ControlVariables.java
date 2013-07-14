@@ -2,20 +2,19 @@ package model.utils;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import model.symbolTable.IdType;
 import model.symbolTable.Identifier;
-import model.symbolTable.PrimitiveTypes;
-import model.symbolTable.VariablesCategories;
 
 public class ControlVariables {
 
 	//decl, par-formal, leitura, 
 	public static String contextoLID;
 	//inteiro, real, booleano, caracter, cadeia
-	public static String tipoAtual;  
+	public static IdType tipoAtual;  
 	//inteiro, real, falso, verdadeiro, literal
-	public static PrimitiveTypes tipoConst;
+	public static IdType tipoConst;
 	public static Object valConst;
-	public static VariablesCategories subCategoria;
+	public static IdType subCategoria;
 	//constante, variavel, 
 	public static String categoriaAtual;  
 	public static String programName;
@@ -25,18 +24,18 @@ public class ControlVariables {
 	//lista de chaves
 	public static ArrayList<Identifier> LID;
 	public static int posid;
-	public static Object tipoLadoEsquerdo;
+	public static IdType tipoLadoEsquerdo;
+	public static IdType tipoFator;
+	public static IdType tipoTermo;
+	public static IdType tipoExpSimples;
+	public static IdType tipoExpr;
 	
 	public static String valorAtual;
 	public static int deslocamento;
 	public static String mppAtual;
 	public static int posicaoDoID;
 	public static int nivelID;
-	public static String tipoExpr;
-	public static String tipoFator;
 	public static String tipoExpressao;
-	public static String tipoTermo;
-	public static String tipoExpressaoSimples;
 	public static String operadorAtual;
 	public static int nDimensoes;
 	public static int dimensao1;
