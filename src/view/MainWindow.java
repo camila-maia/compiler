@@ -117,7 +117,8 @@ public class MainWindow extends JFrame{
 						"vetcar['a']:= maior (x,y-1,7); \n"+
 						"escreva ('este programa nao faz nada', data[dia], b); \n"+
 						"}. \n";
-		String minimunProgram = "programa exemplo;\ninteiro n;\n{n:=10}.";
+		String minimunProgram = "programa exemplo; inteiro n = 10;\n metodo meumetodo(ref i:inteiro);"+
+				"inteiro n = 5;" +"{};{}.";
 		this.programTextArea = new JTextArea(minimunProgram);
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));

@@ -83,6 +83,14 @@ public class SymbolTable {
 		this.rows = rows;
 	}
 	
+	public boolean wasDeclaredPreviowsLevel(String nome, int actualLevel){
+		for(int i = 0; i <= actualLevel; i++ ){
+			if(this.rows.containsKey(nome + "" + actualLevel))
+				return true;
+		}
+		return false;
+	}
+	
 	public void print(){
 		System.out.println("TB : tamanho(posAtual)= " + this.rows.size());
 		System.out.println("TB : currentLevel= " + this.currentLevel);

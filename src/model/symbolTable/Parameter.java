@@ -21,6 +21,11 @@ public class Parameter extends Identifier{
 		this.type = type;
 		
 	}
+	public Parameter(String name, int level) {
+		super(name);
+		this.setLevel(level);		
+	}
+	
 	
 
 	public int getShift() {

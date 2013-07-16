@@ -31,6 +31,6 @@ public class Rule2 {
 	public void test2(){
 		String program = "programa exemplo; {i := 0;}.";
 		boolean ok = SemanticValidator.semanticValidator(program);
-		assertTrue (ok);
+		assertFalse (ok);
 	}
 }

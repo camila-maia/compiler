@@ -12,6 +12,10 @@ public class Identifier {
 
 	public Identifier(String name){
 		this.name = name;
+	} 
+	public Identifier(String name, int level){
+		this.name = name;
+		this.level = level;
 	}
 
 	public Identifier(String name, int rowInSymbolTable, int level){

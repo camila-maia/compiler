@@ -4,6 +4,8 @@ import java.util.Stack;
 
 import model.symbolTable.IdType;
 import model.symbolTable.Identifier;
+import model.symbolTable.Methood;
+import model.symbolTable.Parameter;
 
 public class ControlVariables {
 
@@ -29,10 +31,13 @@ public class ControlVariables {
 	public static IdType tipoTermo;
 	public static IdType tipoExpSimples;
 	public static IdType tipoExpr;
+	public static Stack pf;
+	public static Stack methods = new Stack<Methood>();
+	public static String mpp;
+    public static ArrayList<Parameter> parametersList;
 	
 	public static String valorAtual;
 	public static int deslocamento;
-	public static String mppAtual;
 	public static int posicaoDoID;
 	public static int nivelID;
 	public static String tipoExpressao;
@@ -44,7 +49,6 @@ public class ControlVariables {
 	public static boolean operadorUnario;
 	public static String tipoVarEXPR;
 	public static Stack contextoExpressao;
-	public static Stack npf;
 	public static Stack numeroIndice;
 	public static Stack posicaoIDIndex;
 	public static Stack nivelIDIndex;
@@ -74,5 +78,7 @@ public class ControlVariables {
 		
 		
 	}
+	
+	
 	
 }
