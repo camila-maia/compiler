@@ -1,10 +1,10 @@
 package model.symbolTable;
 
 public enum IdType {
-	INTEIRO, REAL, BOOLEANO, CARACTER, CADEIA, VECTOR, PRIMITIVES;	
+	INTEIRO, REAL, BOOLEANO, CARACTER, CADEIA, VECTOR, PRIMITIVES, NULL;	
 
 	public boolean isDifferent(IdType otherOne){
-		if(this == otherOne)			
+		if(this.equals(otherOne))			
 			return true;
 		else if(this.equals("PRIMITIVES")){
 			if(otherOne.equals("INTEIRO") ||

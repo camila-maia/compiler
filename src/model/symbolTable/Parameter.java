@@ -14,12 +14,10 @@ public class Parameter extends Identifier{
 	public Parameter(String name, int level, int shift, 
 			String passingMechanism, IdType type) {
 		super(name);
-
 		this.setLevel(level);
 		this.shift = shift;
 		this.passingMechanism = passingMechanism;
 		this.type = type;
-		
 	}
 	public Parameter(String name, int level) {
 		super(name);

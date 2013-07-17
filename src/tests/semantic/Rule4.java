@@ -16,22 +16,22 @@ import org.junit.Test;
 public class Rule4 {
 	
 	
-	/**
-	 * Declaração e utilização da variável no mesmo nível
-	 */
-	@Test
-	public void test1(){
-		String program = "programa exemplo; inteiro n = 10; {n := 3;}.";
-		boolean ok = SemanticValidator.semanticValidator(program);
-		assertTrue (ok);
-	}
+//	/**
+//	 * Declaração e utilização da variável no mesmo nível
+//	 */
+//	@Test
+//	public void test1(){
+//		String program = "programa exemplo; inteiro n; {n := 3;}.";
+//		boolean ok = SemanticValidator.semanticValidator(program);
+//		assertTrue (ok);
+//	}
 	
 	/**
 	 * Declaração de variável em nível 'n' e utilização em nível 'n+1'
 	 */
 	@Test
 	public void test2(){
-		String program = "programa exemplo; inteiro n = 10; metodo meumetodo;"+
+		String program = "programa exemplo; inteiro n; metodo meumetodo;"+
 				 "{n := 5;};{}.";
 		boolean ok = SemanticValidator.semanticValidator(program);
 		assertTrue (ok); 
@@ -40,14 +40,11 @@ public class Rule4 {
 	/**
 	 * Declaração de variável em nível 'n-1' e utilização em nível 'n'
 	 */
-	/*
-	 * Este teste irá funcionar quando a regra 2 for implementada
-	 */
-	@Test
-	public void test3(){
-		String program = "programa exemplo; metodo meumetodo;"+
-				 "inteiro n = 10; {};{n := 5;}.";
-		boolean ok = SemanticValidator.semanticValidator(program);
-		assertFalse (ok); 
-	}
+//	@Test
+//	public void test3(){
+//		String program = "programa exemplo; metodo meumetodo;"+
+//				 "inteiro n; {};{n := 5;}.";
+//		boolean ok = SemanticValidator.semanticValidator(program);
+//		assertFalse (ok); 
+//	}
 }

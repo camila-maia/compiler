@@ -37,10 +37,6 @@ public class Rule3 {
 	}
 	
 	@Test
-	/*
-	 * Quando implementarmos o incremento de níveis na troca de contexto, este
-	 * teste deve funfar.
-	 */
 	public void verifyRepeatedIdentifiersInDiferentContexts(){
 		String program = "programa exemplo; inteiro n = 10; metodo meumetodo;"+
 				"inteiro n = 5;" +"{};{}.";

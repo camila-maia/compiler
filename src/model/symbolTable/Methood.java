@@ -11,6 +11,7 @@ public class Methood extends Identifier{
 	//Falta completar atributos!!!
 	private ArrayList<Parameter> parameters;
 	private IdType resultType;
+	private int npf;
 	
 	public IdType getResultType() {
 		return resultType;
@@ -30,5 +31,13 @@ public class Methood extends Identifier{
 
 	public void setParameters(ArrayList<Parameter> parameters) {
 		this.parameters = parameters;
-	}		
+	}
+
+	public int getNpf() {
+		return npf;
+	}
+
+	public void setNpf(int npf) {
+		this.npf = npf;
+	}
 }

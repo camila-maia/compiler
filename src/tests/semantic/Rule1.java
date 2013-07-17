@@ -35,4 +35,11 @@ public class Rule1 {
 		boolean ok = SemanticValidator.semanticValidator(program);
 		assertFalse (ok);
 	}
+	@Test
+	public void test3(){
+		String program = "programa nome; {}.";
+		boolean ok = SemanticValidator.semanticValidator(program);
+		assertTrue (ok);
+	}
+	
 }

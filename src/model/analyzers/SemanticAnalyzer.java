@@ -29,6 +29,8 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(103);		
 		this.implementedActions.add(104);
 		this.implementedActions.add(105);
+		this.implementedActions.add(106);
+		this.implementedActions.add(107);
 		this.implementedActions.add(108);
 		this.implementedActions.add(109);
 		this.implementedActions.add(110);	
@@ -38,9 +40,12 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(114);
 		this.implementedActions.add(115);
 		this.implementedActions.add(116);
+		this.implementedActions.add(117);
+		this.implementedActions.add(118);
 		this.implementedActions.add(119);
 		this.implementedActions.add(120);
 		this.implementedActions.add(121);
+		this.implementedActions.add(123);
 		this.implementedActions.add(124);
 		this.implementedActions.add(126);
 		this.implementedActions.add(131);
@@ -54,6 +59,7 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(176);
 		this.implementedActions.add(177);
 		this.implementedActions.add(178);
+		this.implementedActions.add(179);
 		this.implementedActions.add(180);
 	}
 
@@ -102,7 +108,7 @@ public class SemanticAnalyzer implements Constants {
 		ControlVariables.LID = new ArrayList<Identifier>();
 		ControlVariables.contextoLID = "decl";
 		ControlVariables.primeiraPosicaoListaAux = this.symbolTable.getCurrentPosition();
-	
+
 	}
 
 	/**
@@ -141,8 +147,6 @@ public class SemanticAnalyzer implements Constants {
 				break;
 			}
 		}
-		ControlVariables.printAttributes();//TODO
-		this.symbolTable.print();
 	}
 
 	public void action_105() throws SemanticError {
@@ -175,7 +179,7 @@ public class SemanticAnalyzer implements Constants {
 	public void action_109() throws SemanticError {
 		//Camila Aproves
 		int a = Integer.valueOf((String) ControlVariables.valConst);
-		if (!ControlVariables.tipoConst.equals("inteiro"))
+		if (!ControlVariables.tipoConst.toString().equals("INTEIRO"))
 			throw new SemanticError("esperava-se uma const. inteira");
 		else if( a > 256)
 			throw new SemanticError("cadeia > que o permitido");
@@ -190,7 +194,7 @@ public class SemanticAnalyzer implements Constants {
 	 */
 	public void action_110() throws SemanticError {
 		//Camila Aproves
-		if(ControlVariables.tipoAtual.equals("cadeia"))
+		if(ControlVariables.tipoAtual.toString().equals("CADEIA"))
 			throw new SemanticError("Vetor do tipo cadeia não é permitido");
 		else{
 			ControlVariables.subCategoria = IdType.VECTOR;
@@ -204,7 +208,7 @@ public class SemanticAnalyzer implements Constants {
 	 */
 	public void action_111() throws SemanticError {
 		//Camila Aproves
-		if(ControlVariables.tipoAtual.equals("cadeia"))
+		if(ControlVariables.tipoAtual.toString().equals("CADEIA"))
 			ControlVariables.subCategoria = IdType.CADEIA;
 		else{
 			ControlVariables.subCategoria = IdType.PRIMITIVES;
@@ -236,12 +240,10 @@ public class SemanticAnalyzer implements Constants {
 			this.symbolTable.addIdentifier(identifier);
 			ControlVariables.LID.add(identifier);
 		}else if(ControlVariables.contextoLID.equals("par-formal")){
-			Identifier identifier = new Identifier(this.token.getLexeme(),
-					this.symbolTable.getCurrentPosition(),
+			Parameter parameter = new Parameter(this.token.getLexeme(),
 					this.symbolTable.getCurrentLevel());
-			this.symbolTable.addIdentifier(identifier);			
-			ControlVariables.pf.push(identifier);
-			ControlVariables.LID.add(identifier);
+			this.symbolTable.addIdentifier(parameter);
+			parameter.setRowInSymbolTable(this.symbolTable.getCurrentPosition() -1);
 		}else if(ControlVariables.contextoLID.equals("leitura")){
 			//TODO
 		}
@@ -278,43 +280,56 @@ public class SemanticAnalyzer implements Constants {
 	 * incrementa nível atual (NA := NA + 1)
 	 */
 	public void action_115()throws SemanticError{//TODO		
-		
 		String nome = this.token.getLexeme();
 		int level = symbolTable.getCurrentLevel();
+
 		Methood method = new Methood(nome, level);
 		this.symbolTable.getRows().put(nome + "" + level, method);
-		ControlVariables.pf = new Stack<Integer>();
-		this.symbolTable.setCurrentLevel(level+1);
-		//Talvez tenhamos que colocar esse método na pilha de método
-		
-		//Maicon fez meio dormindo
-		ControlVariables.methods.push(method);
+		ControlVariables.methods.push(method);        		
+
+		ControlVariables.npf.push(0);
 		ControlVariables.parametersList = new ArrayList<Parameter>();
+
+		this.symbolTable.setCurrentLevel(level+1);
 	}
-	
+
+
 	/**Atualiza num. de par. Formais (NPF) na TS*/
 	public void action_116() throws SemanticError{
-//		ponteiro.getMetodoAtual().setNPF((Integer) ponteiro.getNPF());
-//        ponteiro.getMetodoAtual().setListaPar(listaParametro);
-//        listaParametro = null;
-		Methood m = (Methood)(ControlVariables.methods.pop());
-		m.setParameters(ControlVariables.parametersList);
+		//Averiguar se deve-se utilizar peek ou pop
+		Methood method = (Methood)(ControlVariables.methods.peek());
+		method.setNpf(ControlVariables.npf.peek());
+		method.setParameters(ControlVariables.parametersList);
+		ControlVariables.parametersList = null;
 	}
-	
+
+	/**#117 – Atualiza tipo do método na TS*/
+	public void action_117() throws SemanticError{
+
+	}
+
+	/**#118 - Retira da TS as variáveis decl. localmente
+	Atualiza nível atual ( NA := NA – 1 )*/
+	public void action_118() throws SemanticError{
+		this.symbolTable.removeElementsFromLevel
+		(this.symbolTable.getCurrentLevel());
+		this.symbolTable.setCurrentLevel(this.symbolTable.getCurrentLevel()-1);
+	}
+
 	/**#119 - Seta contextoLID para “par-formal”
 		Marca pos.na TS do primeiro id da lista
-		*/
+	 */
 	public void action_119() throws SemanticError{
 		ControlVariables.LID = new ArrayList<Identifier>();
 		ControlVariables.contextoLID = "par-formal";
 		ControlVariables.primeiraPosicaoListaAux = this.symbolTable.getCurrentPosition();
 	}
-	
+
 	/**#120 – Marca pos. na TS do último id da lista*/
 	public void action_120() throws SemanticError{		
 		ControlVariables.ultimaPosicaoListaAux = this.symbolTable.getCurrentPosition();
 	}
-	
+
 	/**
 	#121 – Se TipoAtual diferente de “primitivo”
 	Então ERRO (“Par devem ser de tipo pré-def.”)
@@ -336,12 +351,18 @@ public class SemanticAnalyzer implements Constants {
 			}
 		}
 	}
-	
+
+	/**#123 - Seta tipo do método para “nulo”*/
+	public void action_123() throws SemanticError{
+		Methood methood = ControlVariables.methods.peek();
+		methood.setResultType(IdType.NULL);
+	}
+
 	/**#124 – Seta MPP para “referência”*/
 	public void action_124() throws SemanticError{
 		ControlVariables.mpp = "referencia";
 	}
-	
+
 	/**Se id não está declarado (não esta na TS)
 	então ERRO(“Identificador não declarado”)
 	senão guarda pos ocup por id na TS em POSID*/
@@ -367,27 +388,31 @@ public class SemanticAnalyzer implements Constants {
 		senão ERRO (“id. deveria ser var ou par”)*/
 	public void action_131() throws SemanticError {		
 		int nivelAtual = this.symbolTable.getCurrentLevel();
-		String key = this.token.getLexeme() + "" + nivelAtual;
-		Identifier id = this.symbolTable.getRows().get(key);
-		String className = id.getClass().getSimpleName().toString();
-
-		if(className.equals("Variable")){
-			Variable variable = (Variable)id;
-			if(variable.getType().toString().toLowerCase().equals("vetor") )
-				throw new SemanticError("Erro na ação 131 \nNão pode ser Vetor");				
+		Identifier id = this.symbolTable.getIdentifierPreviouslyDeclared(this.token.getLexeme(), nivelAtual);
+		if (id != null){
+			String className = id.getClass().getSimpleName().toString();
+			
+			if(className.equals("Variable")){
+				Variable variable = (Variable)id;
+				if(variable.getType().toString().toLowerCase().equals("vetor") )
+					throw new SemanticError("Erro na ação 131 \nNão pode ser Vetor");				
+				else{
+					ControlVariables.tipoLadoEsquerdo = variable.getType();
+				}
+			}
+			else if (className.equals("Parameter")){
+				Parameter parameter = (Parameter)id;
+				ControlVariables.tipoLadoEsquerdo = parameter.getType();
+			}
 			else{
-				ControlVariables.tipoLadoEsquerdo = variable.getType();
+				throw new SemanticError("Erro na ação 131 \nEsperáva-se variável ou parâmetro");
 			}
 		}
-		else if (className.equals("Parameter")){
-			Parameter parameter = (Parameter)id;
-			ControlVariables.tipoLadoEsquerdo = parameter.getType();
-		}
 		else{
-			throw new SemanticError("Erro na ação 131 \nEsperáva-se variável ou parâmetro");
-		}
+			throw new SemanticError("id. não declarado");
+		}		
 	}
-	
+
 	/** se TipoExpr não compatível com tipoLadoesq
 	 *  então ERRO (“tipos incompatíveis”)
 	 *  senão (* G. Código *)
@@ -398,27 +423,27 @@ public class SemanticAnalyzer implements Constants {
 					ControlVariables.tipoExpr + "<>" + ControlVariables.tipoLadoEsquerdo);
 		}
 	}
-	
+
 	/** TipoExpr := TipoExpSimples	 */
 	public void action_140() throws SemanticError {
 		ControlVariables.tipoExpr = ControlVariables.tipoExpSimples;
 	}
-	
+
 	/** TipoExpSimples := TipoTermo	 */
 	public void action_148() throws SemanticError {
 		ControlVariables.tipoExpSimples = ControlVariables.tipoTermo;
 	}
-	
+
 	/** TipoTermo := TipoFator */
 	public void action_154() throws SemanticError {
 		ControlVariables.tipoTermo = ControlVariables.tipoFator; 
 	}
-	
+
 	/**TipoFator := TipoCte */
 	public void action_168() throws SemanticError {
 		ControlVariables.tipoFator = ControlVariables.tipoConst; 
 	}
-	
+
 	/**TipoConst := tipo da constante
 			ValConst := valor da constante*/
 	public void action_174() throws SemanticError {
@@ -455,8 +480,21 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_178() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = IdType.CARACTER;
+		ControlVariables.tipoConst = IdType.CADEIA;
 		ControlVariables.valConst = this.token.getLexeme();
+	}
+	
+	/**#179 – Se TipoConst <> inteiro
+		Então ERRO (“A dim.deve ser uma constante
+		inteira”)
+		Senão Seta NumElementos para ValConst
+		*/
+	public void action_179() throws SemanticError {//TODO
+		if(!ControlVariables.tipoConst.isDifferent(IdType.INTEIRO)){
+			throw new SemanticError("Erro na ação 179, A dim.deve ser uma constante 	inteira");
+		}else{
+			//TODO
+		}
 	}
 
 	/** #180

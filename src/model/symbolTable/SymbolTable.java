@@ -1,5 +1,6 @@
 package model.symbolTable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
@@ -91,10 +92,28 @@ public class SymbolTable {
 		return false;
 	}
 	
+	public Identifier getIdentifierPreviouslyDeclared(String nome, int actualLevel){
+		for(int i = actualLevel; i >= 0; i--){
+			if(this.rows.containsKey(nome + i))
+				return this.rows.get(nome + i);
+		}
+		return null;
+	}
+	
 	public void print(){
 		System.out.println("TB : tamanho(posAtual)= " + this.rows.size());
 		System.out.println("TB : currentLevel= " + this.currentLevel);
 		System.out.println("TB : shift= " + this.shift);
 		rows.toString();
+	}
+	
+	public void removeElementsFromLevel(int level){
+		ArrayList<String> keysToRemove = new ArrayList<String>(); 
+		for(Identifier id : this.rows.values()){
+			keysToRemove.add(id.getName()+""+level);
+		}
+		for(String key : keysToRemove){
+			this.rows.remove(key);
+		}
 	}
 }

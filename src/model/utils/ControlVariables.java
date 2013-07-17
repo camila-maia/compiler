@@ -31,8 +31,8 @@ public class ControlVariables {
 	public static IdType tipoTermo;
 	public static IdType tipoExpSimples;
 	public static IdType tipoExpr;
-	public static Stack pf;
-	public static Stack methods = new Stack<Methood>();
+	public static Stack<Integer> npf = new Stack<Integer>();
+	public static Stack<Methood> methods = new Stack<Methood>();
 	public static String mpp;
     public static ArrayList<Parameter> parametersList;
 	
