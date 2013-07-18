@@ -3,6 +3,7 @@ package model.analyzers;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Stack;
 
 
@@ -50,6 +51,7 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(126);
 		this.implementedActions.add(131);
 		this.implementedActions.add(132);
+		this.implementedActions.add(133);
 		this.implementedActions.add(140);
 		this.implementedActions.add(148);
 		this.implementedActions.add(154);
@@ -142,7 +144,7 @@ public class SemanticAnalyzer implements Constants {
 			case "variavel":
 				Variable variable= new Variable(identifier.getName(), 
 						identifier.getLevel());
-				variable.setType(ControlVariables.tipoAtual);
+				variable.setType(ControlVariables.subCategoria);
 				this.symbolTable.updateIdentifier(identifier, variable);
 				break;
 			}
@@ -391,7 +393,7 @@ public class SemanticAnalyzer implements Constants {
 		Identifier id = this.symbolTable.getIdentifierPreviouslyDeclared(this.token.getLexeme(), nivelAtual);
 		if (id != null){
 			String className = id.getClass().getSimpleName().toString();
-			
+
 			if(className.equals("Variable")){
 				Variable variable = (Variable)id;
 				if(variable.getType().toString().toLowerCase().equals("vetor") )
@@ -422,6 +424,33 @@ public class SemanticAnalyzer implements Constants {
 			throw new SemanticError("tipos incompatíveis: " + 
 					ControlVariables.tipoExpr + "<>" + ControlVariables.tipoLadoEsquerdo);
 		}
+	}
+
+	/**133- se categoria de id <> “variável”
+			então ERRO (“esperava-se uma variável”)
+			senao se tipo de id <> vetor e <> de cadeia
+				então ERRO(“apenas vetores e cadeias podem ser indexados”)
+				senão TipoVarIndexada = tipo de id*/
+
+	public void action_133() throws SemanticError {
+		Collection<Identifier> ids = this.symbolTable.getRows().values();
+		Object[] a = ids.toArray();
+		Identifier id = (Identifier) a[ControlVariables.posid];
+
+		if(!id.getClass().getSimpleName().toString().equals("VARIABLE")){
+			throw new SemanticError("esperava-se uma variável");
+		}
+		else{
+			Variable variable = (Variable) id;
+			if (variable.getType().isDifferent(IdType.VECTOR)
+					&& variable.getType().isDifferent(IdType.CADEIA)){
+				throw new SemanticError("apenas vetores e cadeias podem ser indexados");
+			}
+			else{
+				ControlVariables.tipoVarIndexada = variable.getType();
+			}
+		}
+
 	}
 
 	/** TipoExpr := TipoExpSimples	 */
@@ -483,12 +512,12 @@ public class SemanticAnalyzer implements Constants {
 		ControlVariables.tipoConst = IdType.CADEIA;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
-	
+
 	/**#179 – Se TipoConst <> inteiro
 		Então ERRO (“A dim.deve ser uma constante
 		inteira”)
 		Senão Seta NumElementos para ValConst
-		*/
+	 */
 	public void action_179() throws SemanticError {//TODO
 		if(!ControlVariables.tipoConst.isDifferent(IdType.INTEIRO)){
 			throw new SemanticError("Erro na ação 179, A dim.deve ser uma constante 	inteira");

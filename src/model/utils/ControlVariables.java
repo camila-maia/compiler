@@ -35,6 +35,8 @@ public class ControlVariables {
 	public static Stack<Methood> methods = new Stack<Methood>();
 	public static String mpp;
     public static ArrayList<Parameter> parametersList;
+    public static IdType tipoVarIndexada;
+
 	
 	public static String valorAtual;
 	public static int deslocamento;
