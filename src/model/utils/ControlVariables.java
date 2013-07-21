@@ -11,9 +11,7 @@ public class ControlVariables {
 
 	//decl, par-formal, leitura, 
 	public static String contextoLID;
-	//inteiro, real, booleano, caracter, cadeia
 	public static IdType tipoAtual;  
-	//inteiro, real, falso, verdadeiro, literal
 	public static IdType tipoConst;
 	public static Object valConst;
 	public static IdType subCategoria;
@@ -25,7 +23,6 @@ public class ControlVariables {
 	public static int ultimaPosicaoListaAux;
 	//lista de chaves
 	public static ArrayList<Identifier> LID;
-	public static int posid;
 	public static IdType tipoLadoEsquerdo;
 	public static IdType tipoFator;
 	public static IdType tipoTermo;
@@ -36,25 +33,27 @@ public class ControlVariables {
 	public static String mpp;
     public static ArrayList<Parameter> parametersList;
     public static IdType tipoVarIndexada;
+    public static int numElementos;
+    public static Identifier currentIdentifier;
 
 	
-	public static String valorAtual;
-	public static int deslocamento;
-	public static int posicaoDoID;
-	public static int nivelID;
-	public static String tipoExpressao;
-	public static String operadorAtual;
-	public static int nDimensoes;
-	public static int dimensao1;
-	public static int dimensao2;
-	public static String tipoElementoAtual;
-	public static boolean operadorUnario;
-	public static String tipoVarEXPR;
-	public static Stack contextoExpressao;
-	public static Stack numeroIndice;
-	public static Stack posicaoIDIndex;
-	public static Stack nivelIDIndex;
-	public static Stack metodoAtual;
+//	public static String valorAtual;
+//	public static int deslocamento;
+//	public static int posicaoDoID;
+//	public static int nivelID;
+//	public static String tipoExpressao;
+//	public static String operadorAtual;
+//	public static int nDimensoes;
+//	public static int dimensao1;
+//	public static int dimensao2;
+//	public static String tipoElementoAtual;
+//	public static boolean operadorUnario;
+//	public static String tipoVarEXPR;
+//	public static Stack contextoExpressao;
+//	public static Stack numeroIndice;
+//	public static Stack posicaoIDIndex;
+//	public static Stack nivelIDIndex;
+//	public static Stack metodoAtual;
 	
 	public static void cleanAll(){
 		contextoLID = null;

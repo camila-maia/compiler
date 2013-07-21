@@ -4,9 +4,6 @@ package model.analyzers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Stack;
-
-
 
 import model.symbolTable.Constant;
 import model.symbolTable.IdType;
@@ -52,6 +49,7 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(131);
 		this.implementedActions.add(132);
 		this.implementedActions.add(133);
+		this.implementedActions.add(134);
 		this.implementedActions.add(140);
 		this.implementedActions.add(148);
 		this.implementedActions.add(154);
@@ -138,13 +136,23 @@ public class SemanticAnalyzer implements Constants {
 						identifier.getLevel(),
 						ControlVariables.tipoConst,
 						ControlVariables.valConst
-						);				
+						);	
 				this.symbolTable.updateIdentifier(identifier, constant);
 				break;
 			case "variavel":
-				Variable variable= new Variable(identifier.getName(), 
-						identifier.getLevel());
+				Variable variable = new Variable(identifier.getName(),identifier.getLevel());
+				variable.setRowInSymbolTable(identifier.getRowInSymbolTable());
 				variable.setType(ControlVariables.subCategoria);
+
+				if (variable.getType().equals(IdType.VECTOR)){
+					//					variavel.setDeslocamento(tabela_simbolos.getDeslocamento());
+					//					variavel.setTamanho(tabela_simbolos.getNum_elementos());
+					//					tabela_simbolos.inrementarDeslocamento(variavel.getTamanho());
+					variable.setVectorType(ControlVariables.tipoAtual);
+				} else if (variable.getType().equals(IdType.CADEIA)){
+					//					//TODO
+				}
+
 				this.symbolTable.updateIdentifier(identifier, variable);
 				break;
 			}
@@ -180,10 +188,10 @@ public class SemanticAnalyzer implements Constants {
 	 */
 	public void action_109() throws SemanticError {
 		//Camila Aproves
-		int a = Integer.valueOf((String) ControlVariables.valConst);
 		if (!ControlVariables.tipoConst.toString().equals("INTEIRO"))
 			throw new SemanticError("esperava-se uma const. inteira");
-		else if( a > 256)
+		int a = Integer.valueOf((String) ControlVariables.valConst);
+		if( a > 256)
 			throw new SemanticError("cadeia > que o permitido");
 		else
 			ControlVariables.tipoAtual = IdType.CADEIA;			
@@ -240,12 +248,13 @@ public class SemanticAnalyzer implements Constants {
 					this.symbolTable.getCurrentPosition(),
 					this.symbolTable.getCurrentLevel());
 			this.symbolTable.addIdentifier(identifier);
+			identifier.setRowInSymbolTable(this.symbolTable.getCurrentPosition()-1);
 			ControlVariables.LID.add(identifier);
 		}else if(ControlVariables.contextoLID.equals("par-formal")){
 			Parameter parameter = new Parameter(this.token.getLexeme(),
 					this.symbolTable.getCurrentLevel());
 			this.symbolTable.addIdentifier(parameter);
-			parameter.setRowInSymbolTable(this.symbolTable.getCurrentPosition() -1);
+			parameter.setRowInSymbolTable(this.symbolTable.getCurrentPosition()-1);
 		}else if(ControlVariables.contextoLID.equals("leitura")){
 			//TODO
 		}
@@ -370,24 +379,20 @@ public class SemanticAnalyzer implements Constants {
 	senão guarda pos ocup por id na TS em POSID*/
 	public void action_126() throws SemanticError{
 		String name = this.token.getLexeme();
-		Identifier identifier = null;
-		for(int i = 0; i <= this.symbolTable.getCurrentLevel(); i++){
-			if(this.symbolTable.getRows().containsKey(
-					name+""+i)){
-				identifier = this.symbolTable.getRows().get(name+""+i);
-			}
-		}
+		Identifier identifier =	this.symbolTable.getIdentifierPreviouslyDeclared
+				(name,this.symbolTable.getCurrentLevel());
+
 		if (identifier == null)
 			throw new SemanticError("Erro na ação 126 \nIdentificador não declarado");
-		ControlVariables.posid = identifier.getRowInSymbolTable();
+		
+		ControlVariables.currentIdentifier = identifier;
 	}
 
-	/**Se categ. de id = “Variável” ou “Parâmetro”
-			então 
-				se tipo de id = “vetor”
-				então ERRO (“id. Deveria ser indexado”)
-			senão TipoLadoEsq := tipo de id
-		senão ERRO (“id. deveria ser var ou par”)*/
+	/**131- Se categ. de id = “Variável” ou “Parâmetro”
+				então se tipo de id = “vetor”
+					então ERRO (“id. Deveria ser indexado”)
+					senão TipoLadoEsq := tipo de id
+			senão ERRO (“id. deveria ser var ou par”)*/
 	public void action_131() throws SemanticError {		
 		int nivelAtual = this.symbolTable.getCurrentLevel();
 		Identifier id = this.symbolTable.getIdentifierPreviouslyDeclared(this.token.getLexeme(), nivelAtual);
@@ -420,7 +425,7 @@ public class SemanticAnalyzer implements Constants {
 	 *  senão (* G. Código *)
 	 */
 	public void action_132() throws SemanticError {
-		if(ControlVariables.tipoExpr != ControlVariables.tipoLadoEsquerdo){
+		if(ControlVariables.tipoExpr.isDifferent(ControlVariables.tipoLadoEsquerdo)){
 			throw new SemanticError("tipos incompatíveis: " + 
 					ControlVariables.tipoExpr + "<>" + ControlVariables.tipoLadoEsquerdo);
 		}
@@ -433,11 +438,9 @@ public class SemanticAnalyzer implements Constants {
 				senão TipoVarIndexada = tipo de id*/
 
 	public void action_133() throws SemanticError {
-		Collection<Identifier> ids = this.symbolTable.getRows().values();
-		Object[] a = ids.toArray();
-		Identifier id = (Identifier) a[ControlVariables.posid];
+		Identifier id = ControlVariables.currentIdentifier;
 
-		if(!id.getClass().getSimpleName().toString().equals("VARIABLE")){
+		if(!id.getClass().getSimpleName().toString().equals("Variable")){
 			throw new SemanticError("esperava-se uma variável");
 		}
 		else{
@@ -450,7 +453,26 @@ public class SemanticAnalyzer implements Constants {
 				ControlVariables.tipoVarIndexada = variable.getType();
 			}
 		}
+	}
 
+	/**134-	se TipoExpr <> “inteiro”
+			threntão ERRO(“índice deveria ser inteiro")
+			senão se TipoVarIndexada = cadeia
+				então TipoLadoEsq := “caracter”
+				senao TipoLadoEsq := TipoElementos do vetor”)
+	 */
+	public void action_134() throws SemanticError {
+		Identifier id = ControlVariables.currentIdentifier;
+		Variable variable = (Variable)id;
+
+		if (ControlVariables.tipoExpr.isDifferent(IdType.INTEIRO))
+			throw new SemanticError("índice deveria ser inteiro");
+		else{
+			if(ControlVariables.tipoVarIndexada.isEqual(IdType.CADEIA))
+				ControlVariables.tipoLadoEsquerdo = IdType.CARACTER;
+			else
+				ControlVariables.tipoLadoEsquerdo =  variable.getVectorType();
+		}	
 	}
 
 	/** TipoExpr := TipoExpSimples	 */
@@ -509,20 +531,19 @@ public class SemanticAnalyzer implements Constants {
 	ValConst := valor da constante*/
 	public void action_178() throws SemanticError {
 		//Camila Aproves
-		ControlVariables.tipoConst = IdType.CADEIA;
+		ControlVariables.tipoConst = IdType.CARACTER;
 		ControlVariables.valConst = this.token.getLexeme();
 	}
 
 	/**#179 – Se TipoConst <> inteiro
-		Então ERRO (“A dim.deve ser uma constante
-		inteira”)
+		Então ERRO (“A dim.deve ser uma constante inteira”)
 		Senão Seta NumElementos para ValConst
 	 */
-	public void action_179() throws SemanticError {//TODO
-		if(!ControlVariables.tipoConst.isDifferent(IdType.INTEIRO)){
+	public void action_179() throws SemanticError {
+		if(ControlVariables.tipoConst.isDifferent(IdType.INTEIRO)){
 			throw new SemanticError("Erro na ação 179, A dim.deve ser uma constante 	inteira");
 		}else{
-			//TODO
+			ControlVariables.numElementos = Integer.valueOf((String) ControlVariables.valConst);
 		}
 	}
 
@@ -535,6 +556,4 @@ public class SemanticAnalyzer implements Constants {
 		if(!(ControlVariables.tipoConst).equals(ControlVariables.tipoAtual))
 			throw new SemanticError("Erro na ação 180 \nTipo da constante inválido");
 	}
-
-
 }

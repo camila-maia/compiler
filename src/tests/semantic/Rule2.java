@@ -39,7 +39,7 @@ public class Rule2 {
 	public void test3(){
 		String program = "programa exemplo; inteiro n, x = 10;{}.";
 		boolean ok = SemanticValidator.semanticValidator(program);
-		assertFalse (ok);
+		assertTrue (ok);
 	}
 	
 	
@@ -68,7 +68,7 @@ public class Rule2 {
 	public void test7(){
 		String program = "programa exemplo; cadeia [10.5] x;{}.";
 		boolean ok = SemanticValidator.semanticValidator(program);
-		assertTrue(ok);
+		assertFalse(ok);
 	}
 	
 	@Test

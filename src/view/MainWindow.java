@@ -63,62 +63,7 @@ public class MainWindow extends JFrame{
 	}
 
 	private void initProgramPanes(){
-		String program = 
-				"programa exemplo; \n" +
-						"# ex decl constantes \n" +
-						"inteiro n = 10; \n" +
-						"caracter car = 'x'; \n" +
-						"booleano achou = falso; \n" +
-						"real z = 2.5; \n" +
-						"cadeia [ 30 ] nome = 'meu nome'; \n" +
-						"# ex decl variaveis \n" +
-						"inteiro i,j,k ; \n" +
-						"inteiro [ 10 ] x, y; \n" +
-						"booleano achou; \n" +
-						"caracter car, kar; \n" +
-						"cadeia [20] nome; \n" +
-						"real a,b; \n"+
-						"caracter [ n ] vet_car; \n" +
-						"# ex declaracao de metodos \n" +
-						"metodo maior (ref i:inteiro; val j:real):real ; \n" +
-						"{ \n" +
-						"x[ i ] := - ( i * j); \n" + 
-						"se i > j \n"+
-						"entao retorne i * x [j] \n" +
-						"senao retorne j; \n" +
-						"}; \n"+
-						"metodo proc (ref a,b:real; val c,d:inteiro); \n"+
-						"{ \n"+
-						"c:= maior (d, a * z); \n"+
-						"achou := nao (achou e perdeu); \n"+
-						"}; \n"+
-						" /* programa principal */ \n"+
-						"{ \n"+
-						"leia (x,b,z); \n" +
-						"enquanto i <= 10 faca \n"+
-						"{ \n"+
-						"se (z > x) e nao achou \n"+
-						"entao enquanto b > z faca \n" +
-						"{ \n"+
-						"x:= y + 1; \n"+
-						"z:= 0; \n"+
-						"cad := 'um literal qquer'; \n"+
-						"} \n"+
-						"senao enquanto b ou c faca \n"+
-						"{ \n"+
-						"maior:= maior( i, j+k) > 'm'; \n"+
-						"z:=z + 1; \n"+
-						"mat [j + 1] := inter - 1; \n"+
-						"}; \n"+
-						"i:= i+1; \n"+
-						"}; \n"+
-						"vet[x+y] := vet[k*l + 1 * vet[1]]; \n"+
-						"proc (y[x[1]] , i, j+k, maior ( x[i], x[i+1])); \n"+
-						"vetcar['a']:= maior (x,y-1,7); \n"+
-						"escreva ('este programa nao faz nada', data[dia], b); \n"+
-						"}. \n";
-		String minimunProgram = "programa exemplo;\ninteiro[10] nome;\n{\nnome[1]:=2;\n}.";
-		this.programTextArea = new JTextArea(minimunProgram);
+		this.programTextArea = new JTextArea(getTestProgram());
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));
 		this.add(this.programScrollPane);
@@ -158,5 +103,154 @@ public class MainWindow extends JFrame{
 
 	public JTextArea getConsoleTextArea() {
 		return this.consoleTextArea;
+	}
+
+	public String getTestProgram(){
+		String program =
+				"programa semantico_correto;\n"+
+						"\n#Declaração de Constantes\n" +
+						"inteiro m1 = 10;\n" +
+						"booleano achou= falso;\n"+
+						"caracter car = 'x';\n" +
+						"real re = 12.5E-10;\n" +
+
+						"\n#Declaração de Variáveis\n" +						
+						"inteiro i,j,k,n ;\n" +
+						"real a,b,c ;\n" + 
+						"booleano b1,b2;\n" +
+						"caracter car1,car2,car3 ;\n" +
+						"cadeia [30] cad1;\n" +
+						"inteiro [10] x ;\n" +
+						"caracter[20]  y ;\n" +
+						"booleano[10] vb;\n" +
+
+		"\n#Declaração de Métodos\n" +
+		"metodo f (val b,v1:inteiro; ref d: booleano): booleano;\n" +
+		"caracter [15]  a,b1;\n" +
+		"{\n" +
+		"\tleia (b,c, car1);\n" + 
+		"\tretorne b > v1;\n" +
+		"\tenquanto i <= 10  \n" +
+		"\tfaca {x[i]:=0;\n" + 
+		"\t\tb1[x[i]]:=a[1];\n" +
+		"\t\tretorne f( x[i+1], m1, vb[ x[ x [ i ] ] ])}\n" +
+		"};\n" +
+
+		"metodo proc1 (ref b : inteiro; val x1 : caracter; ref x3:real);\n" + 
+		"real a;\n" +
+		"inteiro c;\n" +
+		"{\n" +
+		"\tenquanto i <= 10 faca\n" +
+		"\t{\n" +
+		"\t\ti:=i+ 1;\n" +
+		"\t\tse f(c,i+j,b1)\n" + 
+		"\t\tentao x[i+1]:= x[i+1] * 2\n" +
+		"\t\tsenao x[i+1] := 0;\n" +
+		"\t}\n" +
+
+	"};\n" +
+	"{\n" +
+	"\tproc1(x[1],'a', b);\n" +
+
+		"\tproc1(k, cad1[5*j], c);\n" +
+
+		"\tproc1(m1, car1, x[10*(x[1]*2)]);\n" +
+
+		"\tx[i + 1]:= i* x[ j * (x[k*5] + x[(k-1)*5])];\n" +
+
+		"\tescreva ( 4.5, cad1, y[i], x [ x[i * (j + 1)]  * m1 ], 'x'  );\n" +
+
+		"\tenquanto car < 'z' faca\n" +
+		"\t{\n" +
+		"\t\ty[i]:= cad1[k];\n" +
+		"\t\tcar3:= y[i];\n" +
+		"\t\tvb[ i - 9]:= f (x[1], 100, b1) e (y[i+1] > cad1 [ x [ j ] ] );\n" +
+		"\t};\n" +
+		"\tcar2:=cad1[i*j];\n" +
+		"\tcad1:=car2;\n" +
+		"\tse (i>j) ou (a<>c) e (car1 = car2)\n" +
+		"\tentao i:= j div x[9]\n" +
+		"\t	senao a:= (i + 1) / .57e-10;\n" +
+		"}.";
+
+		String program2 = "programa exemplo;\n" +
+				"real x;\n" +
+				"inteiro [25] y;\n" +
+				"inteiro h = 1;\n" +
+				"metodo func (val k : real) : inteiro;\n" +
+				"{\n" +
+				"\tretorne 10;\n" +
+				"};\n" +
+				"{\n" +
+				"\tx := func(y[5*(3+h)+4]+3);\n" +
+				"}.";
+
+		String program3 = "programa exemplo;\n" +
+
+"\n# ex decl constantes\n" +
+"inteiro n, inter = 10;\n" +  
+"caracter car = 'x';\n" +
+"booleano achou = falso;\n" +
+"real z = 2.5;\n" +
+
+"\n# ex decl variaveis\n" +  
+"inteiro i,j,k ;\n" + 
+"real [ 10 ]  x, y, mat, vet;\n" +
+"inteiro [ 10 ] r,u;\n" +
+"booleano achou;\n" +
+"booleano perdeu;\n" +
+"caracter car, kar;\n" +
+"cadeia [20] nome;\n" +
+"real a,b;\n" +
+"caracter [ n ] vet_car;\n" + 
+"cadeia [ n ] cad;\n" +
+
+"\n# ex declaracao de metodos\n" + 
+"metodo maior (ref m:inteiro; val p:real):real  ;\n" + 
+"{\n" +
+"\tx[ m ] := - ( m * p);\n" + 
+"\tse m > p\n" +
+"\tentao retorne m * x [i]\n" + 
+"\tsenao retorne j;\n" +
+"};\n" +
+
+"\nmetodo proc (ref s,t:real;  val c,d:inteiro);\n" + 
+"{\n" +
+"\ts:= maior(d, s * z);\n" + 
+"\tachou := nao (achou e perdeu);\n" + 
+"};\n" +
+
+"\n/* programa principal */\n" + 
+"{\n" +
+"leia (nome,b);\n" + 
+"enquanto i <= 10 faca\n" +  
+"{\n" +
+"\tse (z > x[1]) e nao achou\n" + 
+"\tentao enquanto b > z faca\n" +
+"\t{\n" +
+"\t\tx[1]:= y[i] + 1;\n" + 
+"\t\ta:=  0;\n" +
+"\t\tcad := 'um literal qquer';\n" + 
+"\t}\n" +
+"\tsenao enquanto  achou ou perdeu faca\n" + 
+"\t{\n" +
+"\t\ta:= maior( i, j+k) ;\n" + 
+"\t\ta :=z +  1;\n" +
+"\t\tmat [j + 1] := inter - 1;\n" + 
+"\t};\n" +
+"\ti:= i+1;\n" +
+"} ;\n" +
+"y[j] := 1.1;\n" +     
+"vet[r[i]+u[j]] := vet[j + 1 * r[r[i]]];\n" + 
+"proc (a , i, j+k, k+1);\n" +
+"y[u[1]] := maior ( i, x[i+1]);\n" + 
+"y[u[1]] := vet[j + 1 * r[r[i]]];\n" +
+
+	"\nescreva ('este programa nao faz nada', b);\n" +
+	"}.";
+
+		String minimunProgram = "programa exemplo; cadeia [10.5] x;{}.";
+
+		return program2;
 	}
 }
