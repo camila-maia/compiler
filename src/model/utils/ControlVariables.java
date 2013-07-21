@@ -11,6 +11,7 @@ public class ControlVariables {
 
 	//decl, par-formal, leitura, 
 	public static String contextoLID;
+	public static String contextoExpr;
 	public static IdType tipoAtual;  
 	public static IdType tipoVar;  
 	public static IdType tipoConst;
@@ -29,11 +30,12 @@ public class ControlVariables {
 	public static IdType tipoTermo;
 	public static IdType tipoExpSimples;
 	public static IdType tipoExpr;
+	public static Stack<Integer> npa = new Stack<Integer>();
 	public static Stack<Integer> npf = new Stack<Integer>();
 	public static Stack<Methood> methods = new Stack<Methood>();
 	//valor,referencia
 	public static String mpp;
-    public static ArrayList<Parameter> parametersList;
+    public static Stack<Parameter> formalParameters = new Stack<Parameter>();
     public static IdType tipoVarIndexada;
     public static int numElementos;
     public static Stack<Identifier> identifiers = new Stack<Identifier>();
@@ -52,7 +54,6 @@ public class ControlVariables {
 //	public static int dimensao2;
 //	public static String tipoElementoAtual;
 //	public static String tipoVarEXPR;
-//	public static Stack contextoExpressao;
 //	public static Stack numeroIndice;
 //	public static Stack posicaoIDIndex;
 //	public static Stack nivelIDIndex;
@@ -60,6 +61,7 @@ public class ControlVariables {
 	
 	public static void cleanAll(){
 		contextoLID = null;
+		contextoExpr = null;
 		tipoAtual = null;
 		tipoVar = null;
 		tipoConst = null;
@@ -76,9 +78,10 @@ public class ControlVariables {
 		tipoExpSimples = null;
 		tipoExpr = null;
 		npf = new Stack<Integer>();
+		npa = new Stack<Integer>();
 		methods = new Stack<Methood>();
 		mpp = null;
-	    parametersList = null;
+	    formalParameters = new Stack<Parameter>();
 	    tipoVarIndexada = null;
 	    numElementos = 0;
 	    identifiers = new Stack<Identifier>();

@@ -82,7 +82,6 @@ public class MainWindow extends JFrame{
 	private void initConsolePanes(){
 		this.consoleTextArea = new JTextArea("");
 		this.consoleTextArea.setEditable(false);
-//		this.consoleTextArea.setForeground(Color.red);
 		
 		Font font = new Font("Verdana", Font.BOLD, 14);
 		this.consoleTextArea.setFont(font);

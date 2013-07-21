@@ -5,10 +5,10 @@ Language = Java
 ScannerName = LexicalAnalyzer
 ParserName = SyntaticAnalyzer
 SemanticName = SemanticAnalyzer
-Package = C:\Users\maicon\Desktop\Compilador\src\model\analyzers
+Package = /home/camila/workspace/compiler/src/model/analyzers 
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 L : [A-Za-z]

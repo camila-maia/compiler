@@ -28,11 +28,11 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private JMenu fileMenu;
 	private JMenu analysisMenu;
 	private JMenu codeMenu;
-	private JMenu aboutMenu;
-
+	
 	private JMenuItem openProgramMenuItem;
 	private JMenuItem saveProgramMenuItem;	
-
+	private JMenuItem aboutMenuItem;
+	
 	private JMenuItem lexicalMenuItem;
 	private JMenuItem syntacticMenuItem;
 	private JMenuItem semanticMenuItem;
@@ -59,14 +59,12 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.fileMenu = new JMenu("Arquivo");
 		this.analysisMenu = new JMenu("Analises");
 		this.codeMenu = new JMenu("Codigo");
-		this.aboutMenu = new JMenu("Sobre");
 	}
 
 	private void addMenus(){
 		this.add(this.fileMenu);
 		this.add(this.analysisMenu);
 		this.add(this.codeMenu);
-		this.add(this.aboutMenu);
 	}
 
 	private void createAndAddMenuItems(){
@@ -77,6 +75,8 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private void createMenuItems() {
 		this.openProgramMenuItem = new JMenuItem("Abrir Programa");
 		this.saveProgramMenuItem = new JMenuItem("Salvar Programa");
+		this.aboutMenuItem = new JMenuItem("Sobre");
+
 
 		this.lexicalMenuItem = new JMenuItem("Lexica");
 		this.syntacticMenuItem = new JMenuItem("Sintatica");
@@ -86,6 +86,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private void addMenuItems() {
 		this.fileMenu.add(openProgramMenuItem);
 		this.fileMenu.add(saveProgramMenuItem);
+		this.fileMenu.add(aboutMenuItem);
 
 		this.analysisMenu.add(this.lexicalMenuItem);
 		this.analysisMenu.add(this.syntacticMenuItem);
@@ -98,6 +99,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		this.lexicalMenuItem.addActionListener(this);
 		this.syntacticMenuItem.addActionListener(this);
 		this.semanticMenuItem.addActionListener(this);
+		this.aboutMenuItem.addActionListener(this);
 	}
 
 	@Override
@@ -113,6 +115,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			this.syntacticMenuItemAction();
 		}else if(e.getSource() == this.semanticMenuItem){
 			this.semanticMenuItemAction();
+		}else if(e.getSource() == this.aboutMenuItem){
+			AboutDialog aboutDialog = new AboutDialog();
+			aboutDialog.setVisible(true);
 		}
 	}
 
