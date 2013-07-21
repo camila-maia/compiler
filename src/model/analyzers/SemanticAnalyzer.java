@@ -3,7 +3,6 @@ package model.analyzers;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import model.symbolTable.Constant;
 import model.symbolTable.IdType;
@@ -43,17 +42,35 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(119);
 		this.implementedActions.add(120);
 		this.implementedActions.add(121);
+		this.implementedActions.add(122);
 		this.implementedActions.add(123);
 		this.implementedActions.add(124);
+		this.implementedActions.add(125);
 		this.implementedActions.add(126);
+		this.implementedActions.add(130);
 		this.implementedActions.add(131);
 		this.implementedActions.add(132);
 		this.implementedActions.add(133);
 		this.implementedActions.add(134);
 		this.implementedActions.add(140);
 		this.implementedActions.add(148);
+		this.implementedActions.add(149);
+		this.implementedActions.add(150);
+		this.implementedActions.add(151);
+		this.implementedActions.add(152);
+		this.implementedActions.add(153);
 		this.implementedActions.add(154);
+		this.implementedActions.add(155);
+		this.implementedActions.add(157);
+		this.implementedActions.add(158);
+		this.implementedActions.add(159);
+		this.implementedActions.add(160);
+		this.implementedActions.add(163);
+		this.implementedActions.add(165);
+		this.implementedActions.add(167);
 		this.implementedActions.add(168);
+		this.implementedActions.add(169);
+		this.implementedActions.add(172);
 		this.implementedActions.add(174);
 		this.implementedActions.add(175);
 		this.implementedActions.add(176);
@@ -150,7 +167,7 @@ public class SemanticAnalyzer implements Constants {
 					//					tabela_simbolos.inrementarDeslocamento(variavel.getTamanho());
 					variable.setVectorType(ControlVariables.tipoAtual);
 				} else if (variable.getType().equals(IdType.CADEIA)){
-					//					//TODO
+					//TODO
 				}
 
 				this.symbolTable.updateIdentifier(identifier, variable);
@@ -308,7 +325,7 @@ public class SemanticAnalyzer implements Constants {
 	/**Atualiza num. de par. Formais (NPF) na TS*/
 	public void action_116() throws SemanticError{
 		//Averiguar se deve-se utilizar peek ou pop
-		Methood method = (Methood)(ControlVariables.methods.peek());
+		Methood method = (Methood)(ControlVariables.getCurrentMethod());
 		method.setNpf(ControlVariables.npf.peek());
 		method.setParameters(ControlVariables.parametersList);
 		ControlVariables.parametersList = null;
@@ -363,6 +380,17 @@ public class SemanticAnalyzer implements Constants {
 		}
 	}
 
+	/**#122- Se TipoAtual = “cadeia”
+			 Então ERRO (“Métodos devem ser de tipo pré-def.”)
+			 Senão Seta tipo do método para TipoAtual
+	 */
+	public void action_122() throws SemanticError{
+		if(ControlVariables.tipoAtual.isEqual(IdType.CADEIA)){
+			throw new SemanticError("Métodos devem ser de tipo pré-def.");
+		}
+		ControlVariables.getCurrentMethod().setResultType(ControlVariables.tipoAtual);
+	}
+
 	/**#123 - Seta tipo do método para “nulo”*/
 	public void action_123() throws SemanticError{
 		Methood methood = ControlVariables.methods.peek();
@@ -372,6 +400,11 @@ public class SemanticAnalyzer implements Constants {
 	/**#124 – Seta MPP para “referência”*/
 	public void action_124() throws SemanticError{
 		ControlVariables.mpp = "referencia";
+	}
+
+	/**#125 – Seta MPP para "valor"*/
+	public void action_125() throws SemanticError{
+		ControlVariables.mpp = "valor";
 	}
 
 	/**Se id não está declarado (não esta na TS)
@@ -384,8 +417,25 @@ public class SemanticAnalyzer implements Constants {
 
 		if (identifier == null)
 			throw new SemanticError("Erro na ação 126 \nIdentificador não declarado");
-		
+
 		ControlVariables.currentIdentifier = identifier;
+	}
+
+	/** Se está fora do escopo de um método com tipo
+		Então ERRO (“Retorne” só pode ser usado em função”)
+		Senão se TipoExpr <> tipo do método
+			então ERRO(“Tipo de exp inválido”)
+			senao (* ação de Geração de Código *)
+	 */
+	public void action_130() throws SemanticError {
+		Methood method = ControlVariables.getCurrentMethod();
+		if (method.getResultType().isEqual(IdType.NULL)){
+			throw new SemanticError("'Retorne' só pode ser usado em função");
+		}
+		if(ControlVariables.tipoExpr.isDifferent(method.getResultType())){
+			throw new SemanticError("Tipo de exp inválido");
+		}
+		/* Geração de Código :)~ */
 	}
 
 	/**131- Se categ. de id = “Variável” ou “Parâmetro”
@@ -485,14 +535,170 @@ public class SemanticAnalyzer implements Constants {
 		ControlVariables.tipoExpSimples = ControlVariables.tipoTermo;
 	}
 
+	/**#149 Se operador não se aplica a TipoExpSimples
+			então ERRO(“Op. e Operando incompatíveis”)
+	 */
+	public void action_149() throws SemanticError {
+		String tipoExprSimples = ControlVariables.tipoExpSimples.toString();
+		String operator = ControlVariables.getCurrentOperator();
+
+		if (operator.equals("ou") && !tipoExprSimples.equals("BOOLEANO"))
+			throw new SemanticError("Operador e operando incompatíveis");
+		else if (!tipoExprSimples.equals("INTEIRO") && !tipoExprSimples.equals("REAL"))
+			throw new SemanticError("Operador e operando incompatíveis");
+	}
+
+	/**#150-Se TipoTermo incompatível com TipoExpSimples
+			então ERRO (“Operandos incompatíveis”)
+			senão TipoExpSimples := tipo do resultado da operação
+			(* Gera Código de acordo com oppad *)
+	 */
+	public void action_150() throws SemanticError {
+		//TODO
+	}
+
+	/**#151- guarda operador para futura G. código */
+	public void action_151() throws SemanticError {
+		ControlVariables.operadores.push("+");
+	}
+
+	/**#152- guarda operador para futura G. código */
+	public void action_152() throws SemanticError {
+		ControlVariables.operadores.push("-");
+	}
+
+	/**#153- guarda operador para futura G. código */
+	public void action_153() throws SemanticError {
+		ControlVariables.operadores.push("ou");
+	}
+
 	/** TipoTermo := TipoFator */
 	public void action_154() throws SemanticError {
 		ControlVariables.tipoTermo = ControlVariables.tipoFator; 
 	}
 
+	/**#155– Se operador não se aplica a TipoTermo
+			 então ERRO(“Op. e Operando incompatíveis”)
+	 */
+	public void action_155() throws SemanticError {
+		String tipoTermo = ControlVariables.tipoTermo.toString();
+		String operator = ControlVariables.getCurrentOperator();
+
+		//Não dá para dividir reais???
+		if (operator.equals("div") && !tipoTermo.equals("INTEIRO"))
+			throw new SemanticError("Operador e operando incompatíveis");
+		else if (operator.equals("e") && !tipoTermo.equals("BOOLEANO"))
+			throw new SemanticError("Operador e operando incompatíveis");
+		else if (!tipoTermo.equals("INTEIRO") && !tipoTermo.equals("REAL"))
+			throw new SemanticError("Operador e operando incompatíveis");
+	}
+
+	/**#157 guarda operador para futura G. código */
+	public void action_157() throws SemanticError {
+		ControlVariables.operadores.push("*");
+	}
+
+	/**#158 guarda operador para futura G. código */
+	public void action_158() throws SemanticError {
+		ControlVariables.operadores.push("/");
+	}
+
+	/**#159 guarda operador para futura G. código */
+	public void action_159() throws SemanticError {
+		ControlVariables.operadores.push("e");
+	}
+
+	/**#160 guarda operador para futura G. código */
+	public void action_160() throws SemanticError {
+		ControlVariables.operadores.push("div");
+	}
+
+	/**#163 se OpUnario
+			então ERRO(“Op. “unário” repetido ”)
+			Senão OpUnario := true
+	 */
+	public void action_163() throws SemanticError {
+		if (ControlVariables.operadorUnario.peek() != null)
+			throw new SemanticError("Op. 'unário' repetido");
+		else
+			ControlVariables.operadorUnario.push(true);
+	}
+
+	/**#165 OpNega := OpUnario := false */
+	public void action_165() throws SemanticError {
+		ControlVariables.operadorUnario.push(false);
+		ControlVariables.operadorNega.push(false);
+	}
+
+	/** #167 – TipoFator := TipoVar */
+	public void action_167() throws SemanticError {
+		ControlVariables.tipoFator = ControlVariables.tipoVar; 
+	}
+
 	/**TipoFator := TipoCte */
 	public void action_168() throws SemanticError {
 		ControlVariables.tipoFator = ControlVariables.tipoConst; 
+	}
+
+	/**#169–se categoria de id <> método 
+	  		então ERRO(“id deveria ser um método”)
+			senão se tipo método = “nulo”
+				então ERRO(“esperava-se mét. com tipo”)
+	 */
+	public void action_169() throws SemanticError {
+		Identifier id = ControlVariables.currentIdentifier;
+		if (!id.getClass().getSimpleName().equals("Methood")){
+			throw new SemanticError("id deveria ser um método");
+		}
+		Methood method = (Methood) id;
+		if(method.getResultType().isEqual(IdType.NULL)){
+			throw new SemanticError("esperava-se mét. com tipo");
+		}
+	}
+
+	/**#172-se categoria de id = “variável” ou “Parâmetro”
+			então se tipo de id = “vetor”
+				então ERRO(“vetor deve ser indexado”)
+				senão TipoVar := Tipo de id
+			senão se categoria de id = método
+				então se tipo método = “nulo”
+					então ERRO(“Esperava-se método com tipo”)
+					senão se NPF <> 0
+						então ERRO(“Erro na quant. de parâmetros”)
+						senão TipoVar:=Tipo resultado (* Gera Código *)
+			senão se categoria de id = “constante”
+					então TipoVar:= TipoConst
+					Senão ERRO(“esperava-se var, id-método ou constante”)
+	 */
+	public void action_172() throws SemanticError {
+		Identifier id = this.symbolTable.getIdentifier(token.getLexeme(),
+				this.symbolTable.getCurrentLevel());
+		String idClassName = id.getClass().getSimpleName();
+
+		switch(idClassName){
+		case "Variable":
+			Variable variable = (Variable) id;
+			if (variable.getType().isEqual(IdType.VECTOR))
+				throw new SemanticError("vetor deve ser indexado");
+			ControlVariables.tipoVar = variable.getType();
+			break;
+		case "Parameter":
+			break;
+		case "Methood":
+			Methood method = (Methood) id;
+			if (method.getResultType().isEqual(IdType.NULL))
+				throw new SemanticError("Esperava-se método com tipo");
+			if(method.getNpf() != 0)
+				throw new SemanticError("Erro na quant. de parâmetros");
+			ControlVariables.tipoVar = method.getResultType();
+			/* Geração de  Código */
+			break;
+		case "Constant":
+			ControlVariables.tipoVar = ControlVariables.tipoConst; 
+			break;
+		default:
+			throw new SemanticError("esperava-se var, id-método ou constante");
+		}
 	}
 
 	/**TipoConst := tipo da constante

@@ -12,6 +12,7 @@ public class ControlVariables {
 	//decl, par-formal, leitura, 
 	public static String contextoLID;
 	public static IdType tipoAtual;  
+	public static IdType tipoVar;  
 	public static IdType tipoConst;
 	public static Object valConst;
 	public static IdType subCategoria;
@@ -30,24 +31,26 @@ public class ControlVariables {
 	public static IdType tipoExpr;
 	public static Stack<Integer> npf = new Stack<Integer>();
 	public static Stack<Methood> methods = new Stack<Methood>();
+	//valor,referencia
 	public static String mpp;
     public static ArrayList<Parameter> parametersList;
     public static IdType tipoVarIndexada;
     public static int numElementos;
     public static Identifier currentIdentifier;
-
+    public static Stack<String> operadores = new Stack<String>();
+    public static Stack<Boolean> operadorUnario = new Stack<>();
+    public static Stack<Boolean> operadorNega = new Stack<>();
+	
 	
 //	public static String valorAtual;
 //	public static int deslocamento;
 //	public static int posicaoDoID;
 //	public static int nivelID;
 //	public static String tipoExpressao;
-//	public static String operadorAtual;
 //	public static int nDimensoes;
 //	public static int dimensao1;
 //	public static int dimensao2;
 //	public static String tipoElementoAtual;
-//	public static boolean operadorUnario;
 //	public static String tipoVarEXPR;
 //	public static Stack contextoExpressao;
 //	public static Stack numeroIndice;
@@ -57,13 +60,34 @@ public class ControlVariables {
 	
 	public static void cleanAll(){
 		contextoLID = null;
-		tipoAtual= null;
-		tipoConst= null;
-		valConst= null;
-		subCategoria= null;
-		categoriaAtual= null;
-		programName= null;
+		tipoAtual = null;
+		tipoVar = null;
+		tipoConst = null;
+		valConst = null;
+		subCategoria = null;
+		categoriaAtual = null;
+		programName = null;
+		primeiraPosicaoListaAux = 0;
+		ultimaPosicaoListaAux = 0;
+		LID = null;
+		tipoLadoEsquerdo = null;
+		tipoFator = null;
+		tipoTermo = null;
+		tipoExpSimples = null;
+		tipoExpr = null;
+		npf = new Stack<Integer>();
+		methods = new Stack<Methood>();
+		mpp = null;
+	    parametersList = null;
+	    tipoVarIndexada = null;
+	    numElementos = 0;
+	    currentIdentifier = null;
+	    operadores = new Stack<String>();
+	    operadorUnario = new Stack<>();
+	    operadorNega = new Stack<>();
 	}
+	
+	
 	
 	public static void printAttributes(){
 		System.out.println("contextoLID = "+contextoLID);
@@ -75,11 +99,13 @@ public class ControlVariables {
 		System.out.println("programName = "+programName);
 		System.out.println("Primeira Pos Lista = "+ primeiraPosicaoListaAux);
 		System.out.println("Ultima Pos Lista = "+ultimaPosicaoListaAux);
-		
-		
-		
 	}
 	
+	public static Methood getCurrentMethod(){
+		return methods.peek();
+	}
 	
-	
+	public static String getCurrentOperator(){
+		return operadores.peek();
+	}
 }

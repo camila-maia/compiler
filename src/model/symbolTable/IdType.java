@@ -6,7 +6,7 @@ public enum IdType {
 	public boolean isDifferent(IdType otherOne){
 		String thisContent = this.toString();
 		String otherContent = otherOne.toString();
-		
+
 		if(this.equals(otherOne))			
 			return false;
 		else if(thisContent.equals("PRIMITIVES")){
@@ -30,5 +30,4 @@ public enum IdType {
 	public boolean isEqual(IdType otherOne){
 		return !isDifferent(otherOne);
 	}
-
 }

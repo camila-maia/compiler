@@ -35,6 +35,7 @@ public class MainWindow extends JFrame{
 
 	private void setProperties(){
 		this.setSize(500, 630);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new FlowLayout());       
 		this.setLocationRelativeTo(null);
@@ -64,6 +65,10 @@ public class MainWindow extends JFrame{
 
 	private void initProgramPanes(){
 		this.programTextArea = new JTextArea(getTestProgram());
+		
+		Font font = new Font("Verdana", Font.BOLD, 16);
+		this.programTextArea.setFont(font);
+		
 		this.programScrollPane = new JScrollPane(this.programTextArea);
 		this.programScrollPane.getViewport().setPreferredSize(new Dimension(485,420));
 		this.add(this.programScrollPane);
@@ -77,7 +82,12 @@ public class MainWindow extends JFrame{
 	private void initConsolePanes(){
 		this.consoleTextArea = new JTextArea("");
 		this.consoleTextArea.setEditable(false);
-		this.consoleTextArea.setForeground(Color.red);
+//		this.consoleTextArea.setForeground(Color.red);
+		
+		Font font = new Font("Verdana", Font.BOLD, 14);
+		this.consoleTextArea.setFont(font);
+		this.consoleTextArea.setForeground(Color.RED);
+		
 		this.consoleScrollPane = new JScrollPane(this.consoleTextArea);
 		this.consoleScrollPane.getViewport().setPreferredSize(new Dimension(485,100));
 		this.add(this.consoleScrollPane);
