@@ -52,6 +52,7 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(132);
 		this.implementedActions.add(133);
 		this.implementedActions.add(134);
+		this.implementedActions.add(136);
 		this.implementedActions.add(140);
 		this.implementedActions.add(148);
 		this.implementedActions.add(149);
@@ -61,15 +62,18 @@ public class SemanticAnalyzer implements Constants {
 		this.implementedActions.add(153);
 		this.implementedActions.add(154);
 		this.implementedActions.add(155);
+		this.implementedActions.add(156);
 		this.implementedActions.add(157);
 		this.implementedActions.add(158);
 		this.implementedActions.add(159);
 		this.implementedActions.add(160);
 		this.implementedActions.add(163);
 		this.implementedActions.add(165);
+		this.implementedActions.add(166);
 		this.implementedActions.add(167);
 		this.implementedActions.add(168);
 		this.implementedActions.add(169);
+		this.implementedActions.add(171);
 		this.implementedActions.add(172);
 		this.implementedActions.add(174);
 		this.implementedActions.add(175);
@@ -418,7 +422,7 @@ public class SemanticAnalyzer implements Constants {
 		if (identifier == null)
 			throw new SemanticError("Erro na ação 126 \nIdentificador não declarado");
 
-		ControlVariables.currentIdentifier = identifier;
+		ControlVariables.identifiers.push(identifier);
 	}
 
 	/** Se está fora do escopo de um método com tipo
@@ -444,8 +448,8 @@ public class SemanticAnalyzer implements Constants {
 					senão TipoLadoEsq := tipo de id
 			senão ERRO (“id. deveria ser var ou par”)*/
 	public void action_131() throws SemanticError {		
-		int nivelAtual = this.symbolTable.getCurrentLevel();
-		Identifier id = this.symbolTable.getIdentifierPreviouslyDeclared(this.token.getLexeme(), nivelAtual);
+		Identifier id = ControlVariables.identifiers.pop();
+				
 		if (id != null){
 			String className = id.getClass().getSimpleName().toString();
 
@@ -488,7 +492,7 @@ public class SemanticAnalyzer implements Constants {
 				senão TipoVarIndexada = tipo de id*/
 
 	public void action_133() throws SemanticError {
-		Identifier id = ControlVariables.currentIdentifier;
+		Identifier id = ControlVariables.identifiers.peek();
 
 		if(!id.getClass().getSimpleName().toString().equals("Variable")){
 			throw new SemanticError("esperava-se uma variável");
@@ -512,19 +516,30 @@ public class SemanticAnalyzer implements Constants {
 				senao TipoLadoEsq := TipoElementos do vetor”)
 	 */
 	public void action_134() throws SemanticError {
-		Identifier id = ControlVariables.currentIdentifier;
+		Identifier id = ControlVariables.identifiers.peek();
 		Variable variable = (Variable)id;
 
 		if (ControlVariables.tipoExpr.isDifferent(IdType.INTEIRO))
 			throw new SemanticError("índice deveria ser inteiro");
 		else{
-			if(ControlVariables.tipoVarIndexada.isEqual(IdType.CADEIA))
+			if(ControlVariables.tipoVarIndexada.isEqual(IdType.CADEIA)){
 				ControlVariables.tipoLadoEsquerdo = IdType.CARACTER;
+				ControlVariables.identifiers.pop();
+			}
 			else
 				ControlVariables.tipoLadoEsquerdo =  variable.getVectorType();
 		}	
 	}
 
+	/**#136 NPA := 1 (Número de Parâmetros Atuais)
+			seta contextoEXPR para “par-atual”
+			Verifica se existe Par Formal correspondente
+			e se o tipo e o MPP são compatíveis.
+ 	 */
+	public void action_136() throws SemanticError {
+		//TODO
+	}
+	
 	/** TipoExpr := TipoExpSimples	 */
 	public void action_140() throws SemanticError {
 		ControlVariables.tipoExpr = ControlVariables.tipoExpSimples;
@@ -554,7 +569,24 @@ public class SemanticAnalyzer implements Constants {
 			(* Gera Código de acordo com oppad *)
 	 */
 	public void action_150() throws SemanticError {
-		//TODO
+		IdType tipoTermo = ControlVariables.tipoTermo;
+		IdType tipoExpSimples = ControlVariables.tipoExpSimples;
+
+		if (tipoExpSimples.isEqual(IdType.BOOLEANO)){
+			if (!tipoTermo.isEqual(IdType.BOOLEANO))
+				throw new SemanticError("Operandos incompatíveis");
+			else
+				ControlVariables.tipoExpSimples = IdType.BOOLEANO;
+		}
+		else if (tipoExpSimples.isEqual(IdType.INTEIRO) && tipoTermo.isEqual(IdType.INTEIRO)){
+			ControlVariables.tipoExpSimples = IdType.INTEIRO;
+		}
+		else if (tipoTermo.isDifferent(IdType.INTEIRO) && tipoTermo.isDifferent(IdType.REAL)){
+			throw new SemanticError("Operandos incompatíveis");
+		}
+		else{
+			ControlVariables.tipoExpSimples = IdType.REAL;
+		}
 	}
 
 	/**#151- guarda operador para futura G. código */
@@ -591,6 +623,15 @@ public class SemanticAnalyzer implements Constants {
 			throw new SemanticError("Operador e operando incompatíveis");
 		else if (!tipoTermo.equals("INTEIRO") && !tipoTermo.equals("REAL"))
 			throw new SemanticError("Operador e operando incompatíveis");
+	}
+
+	/**#156 Se TipoFator incompatível com TipoTermo
+			então ERRO (“Operandos incompatíveis”)
+			senão TipoTermo := tipo do res. da operação
+				(* G. Código de acordo com opmult *)
+	 */
+	public void action_156() throws SemanticError {
+
 	}
 
 	/**#157 guarda operador para futura G. código */
@@ -630,6 +671,11 @@ public class SemanticAnalyzer implements Constants {
 		ControlVariables.operadorNega.push(false);
 	}
 
+	/**#166 TipoFator := TipoExpr */
+	public void action_166() throws SemanticError {
+		ControlVariables.tipoFator = ControlVariables.tipoExpr; 
+	}
+
 	/** #167 – TipoFator := TipoVar */
 	public void action_167() throws SemanticError {
 		ControlVariables.tipoFator = ControlVariables.tipoVar; 
@@ -640,13 +686,32 @@ public class SemanticAnalyzer implements Constants {
 		ControlVariables.tipoFator = ControlVariables.tipoConst; 
 	}
 
+	/**#171-se TipoExpr <> “inteiro”
+			então ERRO(“índice deveria ser inteiro”)
+			senão se TipoVarIndexada = cadeia
+				então TipoVar := “caracter”
+				senao TipoVar := TipoElementos do vetor
+	 */
+	public void action_171() throws SemanticError	 {
+		Identifier id = ControlVariables.identifiers.peek(); 
+		if(ControlVariables.tipoExpr.isDifferent(IdType.INTEIRO))
+			throw new SemanticError("índice deveria ser inteiro");
+		if(ControlVariables.tipoVarIndexada.isEqual(IdType.CADEIA))
+			ControlVariables.tipoVar = IdType.CARACTER;
+		else{
+			Variable variable = (Variable) id;
+			ControlVariables.tipoVar = variable.getVectorType();
+			ControlVariables.identifiers.pop();
+		}
+	}
+
 	/**#169–se categoria de id <> método 
 	  		então ERRO(“id deveria ser um método”)
 			senão se tipo método = “nulo”
 				então ERRO(“esperava-se mét. com tipo”)
 	 */
 	public void action_169() throws SemanticError {
-		Identifier id = ControlVariables.currentIdentifier;
+		Identifier id = ControlVariables.identifiers.peek();
 		if (!id.getClass().getSimpleName().equals("Methood")){
 			throw new SemanticError("id deveria ser um método");
 		}
@@ -671,8 +736,7 @@ public class SemanticAnalyzer implements Constants {
 					Senão ERRO(“esperava-se var, id-método ou constante”)
 	 */
 	public void action_172() throws SemanticError {
-		Identifier id = this.symbolTable.getIdentifier(token.getLexeme(),
-				this.symbolTable.getCurrentLevel());
+		Identifier id = ControlVariables.identifiers.pop();
 		String idClassName = id.getClass().getSimpleName();
 
 		switch(idClassName){

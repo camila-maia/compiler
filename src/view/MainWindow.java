@@ -194,6 +194,18 @@ public class MainWindow extends JFrame{
 				"{\n" +
 				"\tx := func(y[5*(3+h)+4]+3);\n" +
 				"}.";
+		
+		String programWithErrors = "programa exemplo;\n" +
+				"real x;\n" +
+				"inteiro [25] y;\n" +
+				"inteiro h = 1;\n" +
+				"metodo func (val k : booleano) : inteiro;\n" +
+				"{\n" +
+				"\tretorne k;\n" +
+				"};\n" +
+				"{\n" +
+				"\tx := func(y[5*(3+h)+4]+3);\n" +
+				"}.";
 
 		String program3 = "programa exemplo;\n" +
 

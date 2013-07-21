@@ -36,7 +36,7 @@ public class ControlVariables {
     public static ArrayList<Parameter> parametersList;
     public static IdType tipoVarIndexada;
     public static int numElementos;
-    public static Identifier currentIdentifier;
+    public static Stack<Identifier> identifiers = new Stack<Identifier>();
     public static Stack<String> operadores = new Stack<String>();
     public static Stack<Boolean> operadorUnario = new Stack<>();
     public static Stack<Boolean> operadorNega = new Stack<>();
@@ -81,7 +81,7 @@ public class ControlVariables {
 	    parametersList = null;
 	    tipoVarIndexada = null;
 	    numElementos = 0;
-	    currentIdentifier = null;
+	    identifiers = new Stack<Identifier>();
 	    operadores = new Stack<String>();
 	    operadorUnario = new Stack<>();
 	    operadorNega = new Stack<>();
